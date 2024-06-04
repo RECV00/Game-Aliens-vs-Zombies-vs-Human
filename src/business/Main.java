@@ -8,10 +8,10 @@ public class Main extends Application{
 
 	public void start(Stage primaryStage) {
 		
-		UI gui = new UI();
-		gui.start(primaryStage);
+		UI ui = new UI();
+		ui.start(primaryStage);
 		
-		Controller control = new Controller(gui);
+		Controller control = new Controller(ui);
 		control.getControl();
 
 	}
