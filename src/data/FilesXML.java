@@ -22,8 +22,6 @@ import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
-import domain.Person;
-
 public class FilesXML {
 	
 	public FilesXML(){
@@ -139,38 +137,38 @@ public class FilesXML {
 		}
 	}
 	
-	public ArrayList<Person> readXMLArrayList(String FileName, String elementType) {
-		ArrayList<Person> arrayLPeople = new ArrayList<Person>();
-		
-		try {
-			File inputFile = new File(FileName); //new 
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
-			doc.getDocumentElement().normalize();
-
-			System.out.println("Raíz de los Elementos:" + doc.getDocumentElement().getNodeName());
-			NodeList nList = doc.getElementsByTagName(elementType);
-			System.out.println("----------------------------");
-
-			for (int indice = 0; indice < nList.getLength(); indice++) {
-				Node nNode = nList.item(indice);
-				System.out.println("\nDatos de las Personas: " + nNode.getNodeName());
-
-				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-					Element eElement = (Element) nNode;
-					
-					Person p =new Person(
-							eElement.getAttribute("id"),
-							eElement.getElementsByTagName("name").item(0).getTextContent(),
-							Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent()));
-					
-					arrayLPeople.add(p);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return arrayLPeople;
-	}
+//	public ArrayList<Person> readXMLArrayList(String FileName, String elementType) {
+//		ArrayList<Person> arrayLPeople = new ArrayList<Person>();
+//		
+//		try {
+//			File inputFile = new File(FileName); //new 
+//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//			Document doc = dBuilder.parse(inputFile);
+//			doc.getDocumentElement().normalize();
+//
+//			System.out.println("Raíz de los Elementos:" + doc.getDocumentElement().getNodeName());
+//			NodeList nList = doc.getElementsByTagName(elementType);
+//			System.out.println("----------------------------");
+//
+//			for (int indice = 0; indice < nList.getLength(); indice++) {
+//				Node nNode = nList.item(indice);
+//				System.out.println("\nDatos de las Personas: " + nNode.getNodeName());
+//
+//				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+//					Element eElement = (Element) nNode;
+//					
+//					Person p =new Person(
+//							eElement.getAttribute("id"),
+//							eElement.getElementsByTagName("name").item(0).getTextContent(),
+//							Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent()));
+//					
+//					arrayLPeople.add(p);
+//				}
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return arrayLPeople;
+//	}
 }
