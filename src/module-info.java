@@ -1,5 +1,12 @@
-module test {
+module Test{
+
 	requires javafx.controls;
+	requires java.desktop;
+	requires javafx.fxml;
+    requires java.xml;
+
+	opens business to javafx.graphics, javafx.fmxl;
 	
-	opens application to javafx.graphics, javafx.fxml;
+	exports presentation;
+    exports domain;
 }
