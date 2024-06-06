@@ -44,7 +44,7 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         boolean[][] occupiedCells = new boolean[row][column];
 
         // Llenar la matriz con todas las caracteristicas del xml
-        fillEntities(ui.getButtonMatrix(), occupiedCells, zombiesCount, "Z", random);
+        fillEntities(ui.getButtonMatrix(), occupiedCells, zombiesCount, "ZZZZ", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, aliensCount, "A", random);
 //        fillEntities(ui.getButtonMatrix(), occupiedCells, posimasCount, "P", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, edificiosCount, "E", random);
@@ -60,7 +60,7 @@ private void fillEntities(Button[][] buttonMatrix, boolean[][] occupiedCells, in
     int row = buttonMatrix.length;
     int column = buttonMatrix[0].length;
     
-    // Asegurar que la cantidad de entidades no sea mayor que el tamaño de la matriz
+    // Cantidad de entidades no sea mayor que el tamaño de la matriz
     count = Math.min(count, row * column);
 
     // Llenar

@@ -2,6 +2,7 @@ package business;
 
 
 import data.FilesXML;
+import data.Logic;
 import domain.City;
 import presentation.UI;
 
@@ -10,12 +11,14 @@ public class Controller {
 	private UI ui;
 	private City city;
 	private FilesXML fXML;
+	private Logic lo;
 	
 	
 	public Controller(UI ui) {
 		this.ui = ui;
 		city = new City();
 		fXML = new FilesXML();
+		lo = new Logic(ui);
 //		fXML.creatXML("City", "Descripcion de la Ciudad.xml");
 		
 	}
@@ -33,9 +36,18 @@ public class Controller {
 		ui.setGPMatrix(ui.getButtonMatrix());
 		ui.getPContainer().getChildren().add(ui.getGPMatrix());
 		
+		
+		lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
+				Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
+		
+		
+		
+		
+		
 		this.ui.getBMovement().setOnAction(e->{
 			
-
+			lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
+					Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
             
 		});
 		

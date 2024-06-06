@@ -139,7 +139,7 @@ public class UI {
 	    for (int i = 0; i < buttonMatrix.length; i++) {
 	        for (int j = 0; j < buttonMatrix[0].length; j++) {
 	            Button button = buttonMatrix[i][j];
-	            button.setPrefSize(30, 30); // Ajusta el tamaño de los botones como desees
+	            button.setPrefSize(50, 20); // Ajusta el tamaño de los botones como desees
 	            gPMatrix.add(button, j, i);
 	        }
 	    }
