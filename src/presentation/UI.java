@@ -82,8 +82,8 @@ public class UI {
 	public void setBMovement(String name) {
 		bMovement = new Button(name);
 		bMovement.setPrefSize(100, 20);
-		bMovement.setTranslateX(820);
-		bMovement.setTranslateY(450);
+		bMovement.setTranslateX(1060);
+		bMovement.setTranslateY(250);
 	}
 	
 	public Button getBMovement() {
@@ -94,7 +94,7 @@ public class UI {
 		bExterminationZombies = new Button(name);
 		bExterminationZombies.setPrefSize(150, 20);
 		bExterminationZombies.setTranslateX(700);
-		bExterminationZombies.setTranslateY(500);
+		bExterminationZombies.setTranslateY(550);
 	}
 	
 	public Button getBExterminationZombies() {
@@ -105,7 +105,7 @@ public class UI {
 		bExterminationAliens = new Button(name);
 		bExterminationAliens.setPrefSize(150, 20);
 		bExterminationAliens.setTranslateX(900);
-		bExterminationAliens.setTranslateY(500);
+		bExterminationAliens.setTranslateY(550);
 	}
 	
 	public Button getBExterminationAliens() {
@@ -151,9 +151,9 @@ public class UI {
 //----------------------------TABLEVIEW-----------------------------------------------------------------
 	public void setTableView() {
         tableView = new TableView<>();
-        tableView.setPrefSize(100, 150);
+        tableView.setPrefSize(600, 140);
         tableView.setTranslateX(20);
-        tableView.setTranslateY(600);
+        tableView.setTranslateY(510);
         
         TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
        column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
@@ -169,7 +169,7 @@ public class UI {
         
         TableColumn<City, String> column4 = new TableColumn<>("Resultado");
         column4.setCellValueFactory(new PropertyValueFactory<>("result"));
-        column4.setPrefWidth(200);
+        column4.setPrefWidth(250);
         
         tableView.getColumns().addAll(column1, column2, column3,column4);
         

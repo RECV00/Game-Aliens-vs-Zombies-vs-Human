@@ -46,9 +46,9 @@ public class Controller {
 		
 		this.ui.getBMovement().setOnAction(e->{
 			
-			lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
-					Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
-            
+//			lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
+//					Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
+//            
 		});
 		
 		
