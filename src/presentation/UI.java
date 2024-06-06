@@ -69,7 +69,7 @@ public class UI {
 		pContainer.getChildren().add(bMovement);
 		pContainer.getChildren().add(bExterminationZombies);
 		pContainer.getChildren().add(bExterminationAliens);
-		this.pContainer.getChildren().add(tableView);
+		pContainer.getChildren().add(tableView);
 //		pContainer.getChildren().add(gPMatrix);
 	}
 	
@@ -112,19 +112,16 @@ public class UI {
 	}
 //----------------------------------------------------------------------------------	
 	
-	  public void setButtonMatrix(int row, int column, ArrayList<City> cityList) {
-	        buttonMatrix = new Button[row][column];
-	        
-	            Collections.shuffle(cityList);
-	    
-	            for(int i=0; i<buttonMatrix.length;i++) {
-	    			for(int j=0; j<buttonMatrix[0].length;j++) {
-	    				
-	    				buttonMatrix[i][j] = new Button("Hola");
-	    				buttonMatrix[i][j].setPrefSize(100, 20);
-	    			}
-	    		}
-	    }
+	public void setButtonMatrix(int row,int column) {
+		buttonMatrix = new Button[row][column];
+		for(int i=0; i<buttonMatrix.length;i++) {
+			for(int j=0; j<buttonMatrix[0].length;j++) {
+				
+				buttonMatrix[i][j] = new Button(" ");
+				buttonMatrix[i][j].setPrefSize(1,1);
+			}
+		}
+	}
     
 	public Button[][] getButtonMatrix(){
 		return buttonMatrix;
@@ -132,8 +129,8 @@ public class UI {
 	
 	public void setGPMatrix( Button[][] buttonMatrix) {
 		gPMatrix = new GridPane(buttonMatrix.length,buttonMatrix[0].length);
-		gPMatrix.setTranslateX(120);
-		gPMatrix.setTranslateY(200);
+		gPMatrix.setTranslateX(2);
+		gPMatrix.setTranslateY(1);
 		
 		for(int i=0; i<buttonMatrix.length;i++) {
 			for(int j=0; j<buttonMatrix[0].length;j++) {
