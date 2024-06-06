@@ -25,7 +25,11 @@ public class Controller {
 //city= new City(20,20,20,15,15,15,15);
 //fXML.writeXML("Descripcion de la Ciudad.xml", "Cities",city.getDataName(), city.getData());
 	
+		System.out.println(fXML.searchXML("Descripcion de la Ciudad.xml"));
 		
+		ui.setButtonMatrix(Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")), 
+						   Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
+						   fXML.readXMLArrayList("Descripcion de la Ciudad.xml", "Cities"));
 		
 		this.ui.getBMovement().setOnAction(e->{
 			

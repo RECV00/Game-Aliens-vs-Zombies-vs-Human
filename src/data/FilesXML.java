@@ -19,6 +19,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import domain.City;
+
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
@@ -137,38 +140,75 @@ public class FilesXML {
 		}
 	}
 	
-//	public ArrayList<Person> readXMLArrayList(String FileName, String elementType) {
-//		ArrayList<Person> arrayLPeople = new ArrayList<Person>();
-//		
-//		try {
-//			File inputFile = new File(FileName); //new 
-//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-//			Document doc = dBuilder.parse(inputFile);
-//			doc.getDocumentElement().normalize();
-//
-//			System.out.println("Raíz de los Elementos:" + doc.getDocumentElement().getNodeName());
-//			NodeList nList = doc.getElementsByTagName(elementType);
-//			System.out.println("----------------------------");
-//
-//			for (int indice = 0; indice < nList.getLength(); indice++) {
-//				Node nNode = nList.item(indice);
-//				System.out.println("\nDatos de las Personas: " + nNode.getNodeName());
-//
-//				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-//					Element eElement = (Element) nNode;
-//					
-//					Person p =new Person(
-//							eElement.getAttribute("id"),
-//							eElement.getElementsByTagName("name").item(0).getTextContent(),
-//							Integer.parseInt(eElement.getElementsByTagName("age").item(0).getTextContent()));
-//					
-//					arrayLPeople.add(p);
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return arrayLPeople;
-//	}
+	
+	public String searchXML(String address) {
+	    String information = "";
+
+	    try {
+	        File file = new File(address);
+	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(file);
+	        doc.getDocumentElement().normalize();
+
+	        NodeList nodeList = doc.getElementsByTagName("Cities");
+
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Element element = (Element) nodeList.item(i);
+	            NodeList childNodes = element.getChildNodes();
+
+	            for (int j = 0; j < childNodes.getLength(); j++) {
+	                if (childNodes.item(j).getNodeName().equals("size")) {
+	                    information = childNodes.item(j).getTextContent();
+	                    break;
+	                }
+	            }
+	            if (!information.isEmpty()) {
+	                break;
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+
+	    return information;
+	}
+	
+	public ArrayList<City> readXMLArrayList(String FileName, String elementType) {
+		ArrayList<City> arrayLCity = new ArrayList<City>();
+	
+		try {
+			File inputFile = new File(FileName); //new 
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			doc.getDocumentElement().normalize();
+
+			System.out.println("Raíz de los Elementos:" + doc.getDocumentElement().getNodeName());
+			NodeList nList = doc.getElementsByTagName(elementType);
+			System.out.println("----------------------------");
+
+			for (int indice = 0; indice < nList.getLength(); indice++) {
+				Node nNode = nList.item(indice);
+				System.out.println("\nDatos de las Personas: " + nNode.getNodeName());
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+				
+					City c =new City(
+							Integer.parseInt(eElement.getElementsByTagName("size").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("building").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("trees").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("aliens").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("zombies").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("humans").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("potion").item(0).getTextContent()));
+					
+				arrayLCity.add(c);
+				}
+			}
+		} catch (Exception e) {
+		}
+		return arrayLCity;
+	}
 }

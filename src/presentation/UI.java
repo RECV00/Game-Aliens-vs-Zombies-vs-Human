@@ -115,40 +115,16 @@ public class UI {
 	  public void setButtonMatrix(int row, int column, ArrayList<City> cityList) {
 	        buttonMatrix = new Button[row][column];
 	        
-	    
-	        if (((row >= 3) && (row <= 5)) && ((column >= 2) && (column <= 4))) {
-	       
 	            Collections.shuffle(cityList);
 	    
-	            int k = 0;
-	            for (int i = 0; i < buttonMatrix.length; i++) {
-	                for (int j = 0; j < buttonMatrix[0].length; j++) {
-	                    if (k < cityList.size()) {
-	                
-                        buttonMatrix[i][j] = new Button();
-	                        buttonMatrix[i][j].setPrefSize(100, 20);
-	                        k++;
-	                        } else {
-	                       
-	                        buttonMatrix[i][j] = new Button("Empty");
-	                        buttonMatrix[i][j].setPrefSize(100, 20);
-	                    }
-	                }
-	            }
-	        } else {
-	            notify("Las Dimensiones del Edificio son Incorrectas");
-	        }
+	            for(int i=0; i<buttonMatrix.length;i++) {
+	    			for(int j=0; j<buttonMatrix[0].length;j++) {
+	    				
+	    				buttonMatrix[i][j] = new Button("Hola");
+	    				buttonMatrix[i][j].setPrefSize(100, 20);
+	    			}
+	    		}
 	    }
-	  
-	  public String getButtonId(int row, int column) {
-		  
-		    if (row >= 0 && row < buttonMatrix.length && column >= 0 && column < buttonMatrix[0].length) { 
-		     return buttonMatrix[row][column].getText(); 
-		      
-		    } else {
-		        return "Posición de botón inválida";
-		    }
-		}
     
 	public Button[][] getButtonMatrix(){
 		return buttonMatrix;
