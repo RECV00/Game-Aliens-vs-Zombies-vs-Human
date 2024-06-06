@@ -7,11 +7,16 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 
 import domain.City;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -22,6 +27,9 @@ public class UI {
 	private Scene myScene;
 	private Pane pContainer;
 	private GridPane gPMatrix;
+	
+	private TableView<City> tableView;
+	private ObservableList<City> cityList1;
 	
 	private Button bMovement;
 	private Button bExterminationZombies;
@@ -35,6 +43,7 @@ public class UI {
 		setBMovement("Mover");
 		setBExterminationZombies("Exterminio de Zombies");
 		setBExterminationAliens("Exterminio de Aliens");
+		setTableView();
 		setPContainer();
 		setMyScene(pContainer);
 		}
@@ -60,6 +69,7 @@ public class UI {
 		pContainer.getChildren().add(bMovement);
 		pContainer.getChildren().add(bExterminationZombies);
 		pContainer.getChildren().add(bExterminationAliens);
+		this.pContainer.getChildren().add(tableView);
 //		pContainer.getChildren().add(gPMatrix);
 	}
 	
@@ -71,8 +81,8 @@ public class UI {
 	public void setBMovement(String name) {
 		bMovement = new Button(name);
 		bMovement.setPrefSize(100, 20);
-		bMovement.setTranslateX(500);
-		bMovement.setTranslateY(60);
+		bMovement.setTranslateX(60);
+		bMovement.setTranslateY(400);
 	}
 	
 	public Button getBMovement() {
@@ -81,9 +91,9 @@ public class UI {
 	
 	public void setBExterminationZombies(String name) {
 		bExterminationZombies = new Button(name);
-		bExterminationZombies.setPrefSize(100, 20);
-		bExterminationZombies.setTranslateX(100);
-		bExterminationZombies.setTranslateY(60);
+		bExterminationZombies.setPrefSize(150, 20);
+		bExterminationZombies.setTranslateX(420);
+		bExterminationZombies.setTranslateY(400);
 	}
 	
 	public Button getBExterminationZombies() {
@@ -92,33 +102,15 @@ public class UI {
 	
 	public void setBExterminationAliens(String name) {
 		bExterminationAliens = new Button(name);
-		bExterminationAliens.setPrefSize(300, 20);
-		bExterminationAliens.setTranslateX(500);
-		bExterminationAliens.setTranslateY(60);
+		bExterminationAliens.setPrefSize(150, 20);
+		bExterminationAliens.setTranslateX(600);
+		bExterminationAliens.setTranslateY(400);
 	}
 	
 	public Button getBExterminationAliens() {
 		return bExterminationAliens;
 	}
 //----------------------------------------------------------------------------------	
-//	public void setButtonMatrix(int row,int column,ArrayList<Person> personList) {
-//		
-//		buttonMatrix = new Button[row][column];
-//		int k=0;
-//		if (((row >=3) && (row <=5)) && ((column >=2)&&(column <=4))) {
-//		for(int i=0; i<buttonMatrix.length;i++) {
-//			for(int j=0; j<buttonMatrix[0].length;j++) {
-//				int randomIndex = (int) (Math.random() * personList.size());
-//				
-//				buttonMatrix[i][j] = new Button(personList.get(k).getId());
-//				buttonMatrix[i][j].setPrefSize(100, 20);
-//				k++;
-//			}
-//			}
-//		}else{
-//			notify("Las Dimenciones del Edificio son Incorrectas");
-//		}
-//	}
 	
 	  public void setButtonMatrix(int row, int column, ArrayList<City> cityList) {
 	        buttonMatrix = new Button[row][column];
@@ -126,25 +118,25 @@ public class UI {
 	    
 	        if (((row >= 3) && (row <= 5)) && ((column >= 2) && (column <= 4))) {
 	       
-//	            Collections.shuffle(personList);
-//	    
-//	            int k = 0;
-//	            for (int i = 0; i < buttonMatrix.length; i++) {
-//	                for (int j = 0; j < buttonMatrix[0].length; j++) {
-//	                    if (k < personList.size()) {
-//	                
-//	                        buttonMatrix[i][j] = new Button(personList.get(k).getId());
-//	                        buttonMatrix[i][j].setPrefSize(100, 20);
-//	                        k++;
-//	                    } else {
-//	                       
-//	                        buttonMatrix[i][j] = new Button("Empty");
-//	                        buttonMatrix[i][j].setPrefSize(100, 20);
-//	                    }
-//	                }
-//	            }
-//	        } else {
-//	            notify("Las Dimensiones del Edificio son Incorrectas");
+	            Collections.shuffle(cityList);
+	    
+	            int k = 0;
+	            for (int i = 0; i < buttonMatrix.length; i++) {
+	                for (int j = 0; j < buttonMatrix[0].length; j++) {
+	                    if (k < cityList.size()) {
+	                
+                        buttonMatrix[i][j] = new Button();
+	                        buttonMatrix[i][j].setPrefSize(100, 20);
+	                        k++;
+	                        } else {
+	                       
+	                        buttonMatrix[i][j] = new Button("Empty");
+	                        buttonMatrix[i][j].setPrefSize(100, 20);
+	                    }
+	                }
+	            }
+	        } else {
+	            notify("Las Dimensiones del Edificio son Incorrectas");
 	        }
 	    }
 	  
@@ -178,6 +170,43 @@ public class UI {
 	public GridPane getGPMatrix() {
 		return this.gPMatrix;
 	}
+	
+//----------------------------TABLEVIEW-----------------------------------------------------------------
+	public void setTableView() {
+        tableView = new TableView<>();
+        tableView.setPrefSize(500, 200);
+        tableView.setTranslateX(200);
+        tableView.setTranslateY(450);
+        
+        TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
+       column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
+
+        TableColumn<City, Integer> column2 = new TableColumn<>("Calle");
+        column2.setCellValueFactory(new PropertyValueFactory<>("street"));
+
+        TableColumn<City, String> column3 = new TableColumn<>("Evento");
+        column3.setCellValueFactory(new PropertyValueFactory<>("event"));
+        
+        TableColumn<City, String> column4 = new TableColumn<>("Resultado");
+        column3.setCellValueFactory(new PropertyValueFactory<>("result"));
+
+        tableView.getColumns().addAll(column1, column2, column3,column4);
+        
+        cityList1 = FXCollections.observableArrayList();
+        System.out.println(cityList1);
+        tableView.setItems(cityList1);
+    }
+    
+    public TableView<City> getTVCity(){
+    	
+    	return this.tableView;
+    }
+
+    public void dataTableView(ArrayList<City> citys) {
+        cityList1.setAll(citys);
+    }
+	
+//-----------------------------------------------------------------------------------------------------
 	public void notify(String menssage) {
 		JOptionPane.showMessageDialog(null,menssage);
 	}
