@@ -21,6 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import domain.City;
+import domain.Events;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -173,7 +174,7 @@ public class FilesXML {
 
 	    return information;
 	}
-	
+//-----------------------------------------------------------------------------------------------------
 	public ArrayList<City> readXMLArrayList(String FileName, String elementType) {
 		ArrayList<City> arrayLCity = new ArrayList<City>();
 	
@@ -190,7 +191,7 @@ public class FilesXML {
 
 			for (int indice = 0; indice < nList.getLength(); indice++) {
 				Node nNode = nList.item(indice);
-				System.out.println("\nDatos de las Personas: " + nNode.getNodeName());
+				System.out.println("\nDatos de la cuidad: " + nNode.getNodeName());
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
@@ -210,5 +211,37 @@ public class FilesXML {
 		} catch (Exception e) {
 		}
 		return arrayLCity;
+	}
+//-----------------------------------------------------------------------------------------------------
+	public ArrayList<Events> readXMLArrayListEvents(String FileName, String elementType) {
+		ArrayList<Events> arrayLEvent = new ArrayList<Events>();
+	
+		try {
+			File inputFile = new File(FileName); //new 
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(inputFile);
+			doc.getDocumentElement().normalize();
+
+			System.out.println("Raíz de los Elementos:" + doc.getDocumentElement().getNodeName());
+			NodeList nList = doc.getElementsByTagName(elementType);
+
+			for (int indice = 0; indice < nList.getLength(); indice++) {
+				Node nNode = nList.item(indice);
+
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+				
+					Events e = new Events(Integer.parseInt(eElement.getElementsByTagName("avenue").item(0).getTextContent()),
+							Integer.parseInt(eElement.getElementsByTagName("street").item(0).getTextContent()),
+							eElement.getElementsByTagName("event").item(0).getTextContent(),
+							eElement.getElementsByTagName("result").item(0).getTextContent());
+					
+				arrayLEvent.add(e);
+				}
+			}
+		} catch (Exception e) {
+		}
+		return arrayLEvent;
 	}
 }
