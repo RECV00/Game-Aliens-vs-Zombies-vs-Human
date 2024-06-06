@@ -4,7 +4,6 @@ import java.io.File;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,8 +22,6 @@ import org.xml.sax.SAXException;
 
 import domain.City;
 import domain.Events;
-import javafx.scene.control.Button;
-import presentation.UI;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -32,7 +29,6 @@ import org.w3c.dom.Element;
 public class FilesXML {
 	
 	public FilesXML(){
-		
 	}
 
 	public void creatXML(String objectName, String fileAddress) {
@@ -195,12 +191,12 @@ public class FilesXML {
 
 			for (int indice = 0; indice < nList.getLength(); indice++) {
 				Node nNode = nList.item(indice);
-				System.out.println("\nDatos de la cuidad: " + nNode.getNodeName());
+				System.out.println("\nDatos de la cuidad: "+ nNode.getNodeName());
 
 				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 					Element eElement = (Element) nNode;
 				
-					City c =new City(
+					City c = new City(
 							Integer.parseInt(eElement.getElementsByTagName("size").item(0).getTextContent()),
 							Integer.parseInt(eElement.getElementsByTagName("building").item(0).getTextContent()),
 							Integer.parseInt(eElement.getElementsByTagName("trees").item(0).getTextContent()),
@@ -248,6 +244,4 @@ public class FilesXML {
 		}
 		return arrayLEvent;
 	}
-	
-	
 }
