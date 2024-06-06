@@ -151,9 +151,9 @@ public class UI {
 //----------------------------TABLEVIEW-----------------------------------------------------------------
 	public void setTableView() {
         tableView = new TableView<>();
-        tableView.setPrefSize(550, 180);
-        tableView.setTranslateX(620);
-        tableView.setTranslateY(30);
+        tableView.setPrefSize(100, 150);
+        tableView.setTranslateX(20);
+        tableView.setTranslateY(600);
         
         TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
        column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
