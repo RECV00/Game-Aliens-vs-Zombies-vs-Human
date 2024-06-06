@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import domain.City;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -50,7 +51,7 @@ public class UI {
 	
 	public void start(Stage primaryStage) {
 		primaryStage.setTitle("Matriz de Botones");
-		primaryStage.setMinWidth(800);
+		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(700);
 		primaryStage.setScene(getMyScene());
 		primaryStage.show();
@@ -81,8 +82,8 @@ public class UI {
 	public void setBMovement(String name) {
 		bMovement = new Button(name);
 		bMovement.setPrefSize(100, 20);
-		bMovement.setTranslateX(20);
-		bMovement.setTranslateY(400);
+		bMovement.setTranslateX(820);
+		bMovement.setTranslateY(450);
 	}
 	
 	public Button getBMovement() {
@@ -92,8 +93,8 @@ public class UI {
 	public void setBExterminationZombies(String name) {
 		bExterminationZombies = new Button(name);
 		bExterminationZombies.setPrefSize(150, 20);
-		bExterminationZombies.setTranslateX(420);
-		bExterminationZombies.setTranslateY(400);
+		bExterminationZombies.setTranslateX(700);
+		bExterminationZombies.setTranslateY(500);
 	}
 	
 	public Button getBExterminationZombies() {
@@ -103,8 +104,8 @@ public class UI {
 	public void setBExterminationAliens(String name) {
 		bExterminationAliens = new Button(name);
 		bExterminationAliens.setPrefSize(150, 20);
-		bExterminationAliens.setTranslateX(600);
-		bExterminationAliens.setTranslateY(400);
+		bExterminationAliens.setTranslateX(900);
+		bExterminationAliens.setTranslateY(500);
 	}
 	
 	public Button getBExterminationAliens() {
@@ -118,7 +119,7 @@ public class UI {
 			for(int j=0; j<buttonMatrix[0].length;j++) {
 				
 				buttonMatrix[i][j] = new Button(" ");
-				buttonMatrix[i][j].setPrefSize(1,1);
+				buttonMatrix[i][j].setPrefSize(10,10);
 			}
 		}
 	}
@@ -127,19 +128,22 @@ public class UI {
 		return buttonMatrix;
 	}
 	
-	public void setGPMatrix( Button[][] buttonMatrix) {
-		gPMatrix = new GridPane(buttonMatrix.length,buttonMatrix[0].length);
-		gPMatrix.setTranslateX(2);
-		gPMatrix.setTranslateY(1);
-		
-		for(int i=0; i<buttonMatrix.length;i++) {
-			for(int j=0; j<buttonMatrix[0].length;j++) {
-				
-				gPMatrix.add(buttonMatrix[i][j], j, i);
-			}
-		}
+	public void setGPMatrix(Button[][] buttonMatrix) {
+	    gPMatrix = new GridPane();
+	    gPMatrix.setTranslateX(2);
+	    gPMatrix.setTranslateY(2);
+	    gPMatrix.setHgap(0); // Sin espacio horizontal entre las celdas
+	    gPMatrix.setVgap(0); // Sin espacio vertical entre las celdas
+	    gPMatrix.setPadding(new Insets(0)); // Sin margen
+
+	    for (int i = 0; i < buttonMatrix.length; i++) {
+	        for (int j = 0; j < buttonMatrix[0].length; j++) {
+	            Button button = buttonMatrix[i][j];
+	            button.setPrefSize(30, 30); // Ajusta el tamaño de los botones como desees
+	            gPMatrix.add(button, j, i);
+	        }
+	    }
 	}
-	
 	public GridPane getGPMatrix() {
 		return this.gPMatrix;
 	}
@@ -148,8 +152,8 @@ public class UI {
 	public void setTableView() {
         tableView = new TableView<>();
         tableView.setPrefSize(550, 180);
-        tableView.setTranslateX(20);
-        tableView.setTranslateY(450);
+        tableView.setTranslateX(620);
+        tableView.setTranslateY(30);
         
         TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
        column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
@@ -162,6 +166,7 @@ public class UI {
         TableColumn<City, String> column3 = new TableColumn<>("Evento");
         column3.setCellValueFactory(new PropertyValueFactory<>("event"));
         column3.setPrefWidth(150);
+        
         TableColumn<City, String> column4 = new TableColumn<>("Resultado");
         column4.setCellValueFactory(new PropertyValueFactory<>("result"));
         column4.setPrefWidth(200);
