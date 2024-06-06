@@ -37,7 +37,8 @@ public class Controller {
 		ui.getPContainer().getChildren().add(ui.getGPMatrix());
 		
 		
-		
+		lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
+				Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
 		
 		
 		
