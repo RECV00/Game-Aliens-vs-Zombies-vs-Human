@@ -41,8 +41,8 @@ public class UI {
 	public UI() {
 		city = new City();
 		setBMovement("Mover");
-		setBExterminationZombies("Exterminio de Zombies");
-		setBExterminationAliens("Exterminio de Aliens");
+		setBExterminationZombies("Exterminar Zombies");
+		setBExterminationAliens("Exterminar Aliens");
 		setTableView();
 		setPContainer();
 		setMyScene(pContainer);
@@ -81,7 +81,7 @@ public class UI {
 	public void setBMovement(String name) {
 		bMovement = new Button(name);
 		bMovement.setPrefSize(100, 20);
-		bMovement.setTranslateX(60);
+		bMovement.setTranslateX(20);
 		bMovement.setTranslateY(400);
 	}
 	
@@ -174,22 +174,25 @@ public class UI {
 //----------------------------TABLEVIEW-----------------------------------------------------------------
 	public void setTableView() {
         tableView = new TableView<>();
-        tableView.setPrefSize(500, 200);
-        tableView.setTranslateX(200);
+        tableView.setPrefSize(550, 180);
+        tableView.setTranslateX(20);
         tableView.setTranslateY(450);
         
         TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
        column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
+       column1.setPrefWidth(100);
 
         TableColumn<City, Integer> column2 = new TableColumn<>("Calle");
         column2.setCellValueFactory(new PropertyValueFactory<>("street"));
-
+        column2.setPrefWidth(100);
+        
         TableColumn<City, String> column3 = new TableColumn<>("Evento");
         column3.setCellValueFactory(new PropertyValueFactory<>("event"));
-        
+        column3.setPrefWidth(150);
         TableColumn<City, String> column4 = new TableColumn<>("Resultado");
-        column3.setCellValueFactory(new PropertyValueFactory<>("result"));
-
+        column4.setCellValueFactory(new PropertyValueFactory<>("result"));
+        column4.setPrefWidth(200);
+        
         tableView.getColumns().addAll(column1, column2, column3,column4);
         
         cityList1 = FXCollections.observableArrayList();

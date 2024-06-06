@@ -70,9 +70,9 @@ public class FilesXML {
 			Element ele = doc.createElement(elementType);
 			rootElement.appendChild(ele);
 			
-			Attr attr = doc.createAttribute(dataName[0]);
-			attr.setValue(data[0]);
-			ele.setAttributeNode(attr);
+//			Attr attr = doc.createAttribute(dataName[0]);
+//			attr.setValue(data[0]);
+//			ele.setAttributeNode(attr);
 			
 			for(int i = 0; i < data.length; i++) {
 				
