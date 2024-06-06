@@ -58,6 +58,13 @@ public class FilesXML {
 		}
 	}
 	
+	
+	public void deleteXML(String fileAddress) {
+		File file = new File(fileAddress);
+		if(file.exists()) {
+			file.delete();
+		}
+	}
 //	--------------------------------------------------------------------------------------------
 	
 	public void writeXML(String fileName, String elementType, String[] dataName,String[] data ) {
