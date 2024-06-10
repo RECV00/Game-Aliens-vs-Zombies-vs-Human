@@ -4,6 +4,7 @@ package business;
 import data.FilesXML;
 import data.Logic;
 import domain.City;
+import javafx.stage.Stage;
 import presentation.UI;
 
 public class Controller {
@@ -12,15 +13,18 @@ public class Controller {
 	private City city;
 	private FilesXML fXML;
 	private Logic lo;
+	private Stage secundaryStage;
 	
 	
 	public Controller(UI ui) {
+		secundaryStage = new Stage();
 		this.ui = ui;
+		ui.start(secundaryStage);
 		city = new City();
 		fXML = new FilesXML();
 		lo = new Logic(ui);
 //		fXML.creatXML("City", "Descripcion de la Ciudad.xml");
-		
+		getControl();
 	}
 //--------------------------------------------------------------------------------------------------
 	public void getControl() {
