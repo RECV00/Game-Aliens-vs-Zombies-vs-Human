@@ -2,16 +2,16 @@ package business;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
-import presentation.UI;
+import presentation.UI1;
 
 public class Main extends Application{
 
 	public void start(Stage primaryStage) {
 		
-		UI ui = new UI();
-		ui.start(primaryStage);
+		UI1 ui1 = new UI1();
+		ui1.start(primaryStage);
 		
-		Controller control = new Controller(ui);
+		ControllerUI1 control = new ControllerUI1(ui1);
 		control.getControl();
 
 	}
