@@ -54,6 +54,7 @@ public class UI {
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(700);
 		primaryStage.setScene(getMyScene());
+		getMyScene().getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 		primaryStage.show();
 	}
 	
