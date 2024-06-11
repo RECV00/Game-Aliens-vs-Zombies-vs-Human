@@ -17,9 +17,11 @@ import presentation.UI;
 public class Logic {
 	
 	private UI ui;
+	private Random random;
 	
 	public Logic(UI ui) {
 		this.ui = ui;
+		this.random = new Random();
 	}
 
 
@@ -74,6 +76,99 @@ private void fillEntities(Button[][] buttonMatrix, boolean[][] occupiedCells, in
 
             occupiedCells[x][y] = true; // si esta ocupada
         buttonMatrix[x][y].setText(entity);
+    }
+}
+public void moveEntities(Button[][] buttonMatrix) {
+    int row = buttonMatrix.length;
+    int column = buttonMatrix[0].length;
+
+    String[][] newMatrix = new String[row][column];
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            newMatrix[i][j] = "";
+        }
+    }
+
+    // Copiar matriz actual a newMatrix
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            newMatrix[i][j] = buttonMatrix[i][j].getText();
+        }
+    }
+
+    // Mover todas las letras A, Z y H simultáneamente
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            String text = buttonMatrix[i][j].getText();
+            if (text.contains("A") || text.contains("Z") || text.contains("H")) {
+                moveEntity(newMatrix, text, i, j, buttonMatrix);
+            }
+        }
+    }
+
+    // Actualizar la matriz de botones con los movimientos realizados
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            buttonMatrix[i][j].setText(newMatrix[i][j]);
+        }
+    }
+}
+//--------------------------------------------------------------------------------------------------------
+// validaciones
+private void moveEntity(String[][] newMatrix, String entity, int x, int y, Button[][] buttonMatrix) {
+    int row = newMatrix.length;
+    int column = newMatrix[0].length;
+
+    // Lista de direcciones posibles: arriba, abajo, izquierda, derecha
+    int[] directions = { -1, 1, -1, 1 };
+    int[] randomOrder = { 0, 1, 2, 3 };
+    shuffleArray(randomOrder);
+
+    for (int index : randomOrder) {
+        int dir = directions[index];
+        if (dir == -1 || dir == 1) {
+            int newX = x + dir;
+            int newY = y;
+            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
+                newMatrix[newX][newY] += entity;
+                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
+                return;
+            }
+
+            newX = x;
+            newY = y + dir;
+            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
+                newMatrix[newX][newY] += entity;
+                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
+                return;
+            }
+        }
+    }
+}
+//-----------------------------------------------------------------------------------------------------------
+private boolean isValidMove(String[][] matrix, int x, int y, int row, int column, Button[][] buttonMatrix) {
+    return x >= 0 && x < row && y >= 0 && y < column &&
+            !matrix[x][y].contains("E") && !matrix[x][y].contains("T");
+}
+
+private void shuffleArray(int[] array) {
+    Random random = new Random();
+    for (int i = array.length - 1; i > 0; i--) {
+        int index = random.nextInt(i + 1);
+        // Swap
+        int temp = array[index];
+        array[index] = array[i];
+        array[i] = temp;
+    }
+}
+//-------------------------------------------------------------------------------------------------------------
+public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
+    for (int i = 0; i < buttonMatrix.length; i++) {
+        for (int j = 0; j < buttonMatrix[0].length; j++) {
+            for (String entity : entities) {
+                buttonMatrix[i][j].setText(buttonMatrix[i][j].getText().replace(entity, ""));
+            }
+        }
     }
 }
 

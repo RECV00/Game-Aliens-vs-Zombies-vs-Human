@@ -24,6 +24,7 @@ public class Controller {
 		fXML = new FilesXML();
 		lo = new Logic(ui);
 //		fXML.creatXML("City", "Descripcion de la Ciudad.xml");
+//		fXML.creatXML("Acontecimiento","Acontecimientos.xml" );
 		getControl();
 	}
 //--------------------------------------------------------------------------------------------------
@@ -50,12 +51,23 @@ public class Controller {
 		
 		this.ui.getBMovement().setOnAction(e->{
 			
-//			lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
-//					Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
-//            
+			lo.moveEntities(ui.getButtonMatrix());
+			ui.updateButtonMatrix(ui.getButtonMatrix());
+            
 		});
 		
+		this.ui.getBExterminationZombies().setOnAction(e->{
+			
+			
+			
+		});
 		
+		this.ui.getBExterminationZombies().setOnAction(e->{
+			
+			
+			
+		});
+	
 	}
 	
 }
