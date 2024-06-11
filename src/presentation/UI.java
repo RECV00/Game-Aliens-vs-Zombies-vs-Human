@@ -50,7 +50,7 @@ public class UI {
 		}
 	
 	public void start(Stage primaryStage) {
-		primaryStage.setTitle("Matriz de Botones");
+		primaryStage.setTitle("Alien vs Zombie vs Human");
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(700);
 		primaryStage.setScene(getMyScene());
@@ -148,7 +148,20 @@ public class UI {
 	public GridPane getGPMatrix() {
 		return this.gPMatrix;
 	}
-	
+	 // Método para actualizar la matriz de botones en el GridPane
+    public void updateButtonMatrix(Button[][] buttonMatrix) {
+        if (gPMatrix != null) {
+            gPMatrix.getChildren().clear(); // Borra todos los botones actuales del GridPane
+
+            // Vuelve a agregar los botones actualizados
+            for (int i = 0; i < buttonMatrix.length; i++) {
+                for (int j = 0; j < buttonMatrix[0].length; j++) {
+                    Button button = buttonMatrix[i][j];
+                    gPMatrix.add(button, j, i);
+                }
+            }
+        }
+    }
 //----------------------------TABLEVIEW-----------------------------------------------------------------
 	public void setTableView() {
         tableView = new TableView<>();
