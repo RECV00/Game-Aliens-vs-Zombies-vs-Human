@@ -14,7 +14,7 @@ public class Controller {
 	private FilesXML fXML;
 	private Logic lo;
 	private Stage secundaryStage;
-	
+
 	
 	public Controller(UI ui) {
 		secundaryStage = new Stage();
@@ -24,12 +24,13 @@ public class Controller {
 		fXML = new FilesXML();
 		lo = new Logic(ui);
 //		fXML.creatXML("City", "Descripcion de la Ciudad.xml");
-//		fXML.creatXML("Acontecimiento","Acontecimientos.xml" );
+//		fXML.deleteXML("Acontecimientos.xml" );
+		fXML.creatXML("Acontecimiento","Acontecimientos.xml" );
 		getControl();
 	}
 //--------------------------------------------------------------------------------------------------
 	public void getControl() {
-
+		
 //city= new City(20,20,20,15,15,15,15);
 //fXML.writeXML("Descripcion de la Ciudad.xml", "Cities",city.getDataName(), city.getData());
 	
@@ -51,10 +52,16 @@ public class Controller {
 		
 		this.ui.getBMovement().setOnAction(e->{
 			
-			lo.moveEntities(ui.getButtonMatrix());
-			ui.updateButtonMatrix(ui.getButtonMatrix());
-            
+		
+				lo.moveEntities(ui.getButtonMatrix());
+				ui.updateButtonMatrix(ui.getButtonMatrix());
+				lo.resolveConflicts(ui.getButtonMatrix());
+//				ui.dataTableView(fXML.readXMLArrayList("Acontecimientos.xml", "Acontecimiento"));
+				
+		
+			
 		});
+	
 		
 		this.ui.getBExterminationZombies().setOnAction(e->{
 			

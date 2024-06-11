@@ -1,5 +1,6 @@
 package data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -13,14 +14,19 @@ import org.w3c.dom.Entity;
 
 import javafx.scene.control.Button;
 import presentation.UI;
-
+import domain.City;
+import domain.Events;
 public class Logic {
 	
 	private UI ui;
 	private Random random;
+	private Events events;
+	private FilesXML fXML;
 	
 	public Logic(UI ui) {
 		this.ui = ui;
+		events = new Events();
+		fXML = new FilesXML();
 		this.random = new Random();
 	}
 
@@ -49,7 +55,7 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         fillEntities(ui.getButtonMatrix(), occupiedCells, zombiesCount, "Z", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, aliensCount, "A", random);
 //        fillEntities(ui.getButtonMatrix(), occupiedCells, posimasCount, "P", random);
-        fillEntities(ui.getButtonMatrix(), occupiedCells, edificiosCount, "E", random);
+        fillEntities(ui.getButtonMatrix(), occupiedCells, edificiosCount,"E", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, arbolesCount, "T", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, humanosCount, "H", random);
 
@@ -148,7 +154,7 @@ private void moveEntity(String[][] newMatrix, String entity, int x, int y, Butto
 //-----------------------------------------------------------------------------------------------------------
 private boolean isValidMove(String[][] matrix, int x, int y, int row, int column, Button[][] buttonMatrix) {
     return x >= 0 && x < row && y >= 0 && y < column &&
-            !matrix[x][y].contains("E") && !matrix[x][y].contains("T");
+            !matrix[x][y].contains("E") && !matrix[x][y].contains("T") && !matrix[x][y].contains("P");
 }
 
 private void shuffleArray(int[] array) {
@@ -171,6 +177,52 @@ public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
         }
     }
 }
+
+public void resolveConflicts(Button[][] buttonMatrix) {
+    int rows = buttonMatrix.length;
+    int columns = buttonMatrix[0].length;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) { 
+            String entity = buttonMatrix[i][j].getText();
+            List<String> neighbors = new ArrayList<>();
+
+            if (i > 0) neighbors.add(buttonMatrix[i - 1][j].getText());
+            if (i < rows - 1) neighbors.add(buttonMatrix[i + 1][j].getText());
+            if (j > 0) neighbors.add(buttonMatrix[i][j - 1].getText());
+            if (j < columns - 1) neighbors.add(buttonMatrix[i][j + 1].getText());
+
+            for (String neighbor : neighbors) {
+                String result = null;
+                if (entity.equals("A") && neighbor.equals("Z")) {
+                    result = "Alien se transforma a Zombie";
+                } else if (entity.equals("Z") && neighbor.equals("H")) {
+                    result = "Humano se transforma a Zombie";
+                } else if (entity.equals("A") && neighbor.equals("H")) {
+                    result = "Muere humano";
+                } else if (entity.equals("Z") && neighbor.equals("P")) {
+                    result = "Zombie se transforma en Humano";
+                } else if (entity.equals("A") && neighbor.equals("P")) {
+                    result = "Alien se transforma en Humano";
+                } else if (entity.equals("Z") && neighbor.equals("Z")) {
+                    result = "Continúan";
+                } else if (entity.equals("A") && neighbor.equals("A")) {
+                    result = "Continúan";
+                }
+
+                if (result != null) {
+                    Events event = new Events(i, j, entity + " vs " + neighbor, result);
+                    System.out.println(event); // Mensaje de depuración
+
+                    // Usar la instancia event para obtener los datos y escribir en el XML
+                    fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
+                    ui.dataTableView(fXML.readXMLArrayList("Acontecimientos.xml", "Acontecimiento"));
+                }
+            }
+        }
+    }
+}
+
 
 
 }

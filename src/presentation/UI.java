@@ -84,7 +84,7 @@ public class UI {
 		bMovement = new Button(name);
 		bMovement.setPrefSize(100, 20);
 		bMovement.setTranslateX(1060);
-		bMovement.setTranslateY(250);
+		bMovement.setTranslateY(550);
 	}
 	
 	public Button getBMovement() {
@@ -140,7 +140,7 @@ public class UI {
 	    for (int i = 0; i < buttonMatrix.length; i++) {
 	        for (int j = 0; j < buttonMatrix[0].length; j++) {
 	            Button button = buttonMatrix[i][j];
-	            button.setPrefSize(50, 20); // Ajusta el tamaño de los botones como desees
+	            button.setPrefSize(64, 20); // Ajusta el tamaño de los botones como desees
 	            gPMatrix.add(button, j, i);
 	        }
 	    }
