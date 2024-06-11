@@ -192,38 +192,73 @@ public void resolveConflicts(Button[][] buttonMatrix) {
             if (j > 0) neighbors.add(buttonMatrix[i][j - 1].getText());
             if (j < columns - 1) neighbors.add(buttonMatrix[i][j + 1].getText());
 
+            boolean conflictResolved = false;
+            
             for (String neighbor : neighbors) {
+                String evento = null;
                 String result = null;
+                String newLetter = null;
                 if (entity.equals("A") && neighbor.equals("Z")) {
+                    evento = "Transformar";
                     result = "Alien se transforma a Zombie";
+                    newLetter = "Z";
                 } else if (entity.equals("Z") && neighbor.equals("H")) {
+                    evento = "Transformar";
                     result = "Humano se transforma a Zombie";
+                    newLetter = "Z";
                 } else if (entity.equals("A") && neighbor.equals("H")) {
+                    evento = "Asesinato";
                     result = "Muere humano";
+                    newLetter = "A";
                 } else if (entity.equals("Z") && neighbor.equals("P")) {
+                    evento = "Tomar";
                     result = "Zombie se transforma en Humano";
+                    newLetter = "H";
                 } else if (entity.equals("A") && neighbor.equals("P")) {
+                    evento = "Tomar";
                     result = "Alien se transforma en Humano";
+                    newLetter = "H";
+                } else if (entity.equals("Z") && neighbor.equals("Z") && entity.equals("A") && neighbor.equals("A")) {
+                    evento = "Transformar";
+                    result = "Aliens se transforma en Zombie";
+                    newLetter = "Z";
+                } else if (entity.equals("Z") && neighbor.equals("Z") && entity.equals("A")) {
+                    evento = "Asesinato";
+                    result = "Muere Alien";
+                    newLetter = "Z";
+                } else if (entity.equals("A") && neighbor.equals("A") && entity.equals("Z")) {
+                    evento = "Asesinato";
+                    result = "Muere Zombie";
+                    newLetter = "A";
                 } else if (entity.equals("Z") && neighbor.equals("Z")) {
+                    evento = "Pelea";
                     result = "Continúan";
+                    newLetter = "Z";
                 } else if (entity.equals("A") && neighbor.equals("A")) {
+                    evento = "Pelea";
                     result = "Continúan";
+                    newLetter = "A";
                 }
 
                 if (result != null) {
-                    Events event = new Events(i, j, entity + " vs " + neighbor, result);
+                    conflictResolved = true;
+                    Events event = new Events(i, j, evento, result);
                     System.out.println(event); // Mensaje de depuración
 
                     // Usar la instancia event para obtener los datos y escribir en el XML
                     fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
-                    ui.dataTableView(fXML.readXMLArrayList("Acontecimientos.xml", "Acontecimiento"));
+//                    ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
+
+                    // Actualizar el botón con la nueva letra
+                    if (newLetter != null) {
+                        buttonMatrix[i][j].setText(newLetter);
+                    }
                 }
             }
         }
     }
 }
 
-
-
 }
+
 

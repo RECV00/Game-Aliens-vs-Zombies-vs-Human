@@ -56,7 +56,7 @@ public class Controller {
 				lo.moveEntities(ui.getButtonMatrix());
 				ui.updateButtonMatrix(ui.getButtonMatrix());
 				lo.resolveConflicts(ui.getButtonMatrix());
-//				ui.dataTableView(fXML.readXMLArrayList("Acontecimientos.xml", "Acontecimiento"));
+				ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
 				
 		
 			

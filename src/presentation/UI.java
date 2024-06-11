@@ -6,7 +6,7 @@ import java.util.Random;
 
 import javax.swing.JOptionPane;
 
-import domain.City;
+import domain.Events;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -24,23 +24,23 @@ import javafx.stage.Stage;
 
 public class UI {
 
-	private City city;
+	private Events event;
 	private Scene myScene;
 	private Pane pContainer;
 	private GridPane gPMatrix;
 	
-	private TableView<City> tableView;
-	private ObservableList<City> cityList1;
+	private TableView<Events> tableView;
+	private ObservableList<Events> eventList1;
 	
 	private Button bMovement;
 	private Button bExterminationZombies;
 	private Button bExterminationAliens;
 	private Button buttonMatrix[][];
    
-	private ArrayList<City> cityList;
+	private ArrayList<Events> eventList;
 
 	public UI() {
-		city = new City();
+		event = new Events();
 		setBMovement("Mover");
 		setBExterminationZombies("Exterminar Zombies");
 		setBExterminationAliens("Exterminar Aliens");
@@ -169,36 +169,36 @@ public class UI {
         tableView.setTranslateX(20);
         tableView.setTranslateY(510);
         
-        TableColumn<City, Integer> column1 = new TableColumn<>("Avenida");
+        TableColumn<Events, Integer> column1 = new TableColumn<>("Avenida");
        column1.setCellValueFactory(new PropertyValueFactory<>("avenue"));
        column1.setPrefWidth(100);
 
-        TableColumn<City, Integer> column2 = new TableColumn<>("Calle");
+        TableColumn<Events, Integer> column2 = new TableColumn<>("Calle");
         column2.setCellValueFactory(new PropertyValueFactory<>("street"));
         column2.setPrefWidth(100);
         
-        TableColumn<City, String> column3 = new TableColumn<>("Evento");
+        TableColumn<Events, String> column3 = new TableColumn<>("Evento");
         column3.setCellValueFactory(new PropertyValueFactory<>("event"));
         column3.setPrefWidth(150);
         
-        TableColumn<City, String> column4 = new TableColumn<>("Resultado");
+        TableColumn<Events, String> column4 = new TableColumn<>("Resultado");
         column4.setCellValueFactory(new PropertyValueFactory<>("result"));
         column4.setPrefWidth(250);
         
         tableView.getColumns().addAll(column1, column2, column3,column4);
         
-        cityList1 = FXCollections.observableArrayList();
-        System.out.println(cityList1);
-        tableView.setItems(cityList1);
+        eventList1 = FXCollections.observableArrayList();
+        System.out.println(eventList1);
+        tableView.setItems(eventList1);
     }
     
-    public TableView<City> getTVCity(){
+    public TableView<Events> getTVCity(){
     	
     	return this.tableView;
     }
 
-    public void dataTableView(ArrayList<City> citys) {
-        cityList1.setAll(citys);
+    public void dataTableView(ArrayList<Events> Acontecimiento) {
+    	eventList1.setAll(Acontecimiento);
     }
 	
 //-----------------------------------------------------------------------------------------------------

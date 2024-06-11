@@ -116,39 +116,6 @@ public class FilesXML {
 	
 //	----------------------------------------------------------------------------------------
 	
-	public void readXML(String address, String elementType) {
-		try {
-			File inputFile =  new File(address);
-			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			Document doc = dBuilder.parse(inputFile);
-			doc.getDocumentElement().normalize();
-			
-			System.out.println("Raiz de los Elementos:" + doc.getDocumentElement().getNodeName());
-			NodeList nList = doc.getElementsByTagName(elementType);
-			
-			System.out.println("--------------------------------------------------");
-			Node nNode = null;
-			for(int indice =0; indice <nList.getLength(); indice++) {
-				nNode = nList.item(indice);
-				System.out.println("\nDatos de las personas: " + nNode.getNodeName());
-				
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element eElement = (Element) nNode;
-				System.out.println("Cedula: " + eElement.getAttribute("id"));
-				System.out.println("Nombre: " + eElement.getElementsByTagName("name").item(0).getTextContent());
-				System.out.println("Edad: " + eElement.getElementsByTagName("age").item(0).getTextContent());
-				
-			}
-			}
-			
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	public String searchXML(String address) {
 	    String information = "";
 
