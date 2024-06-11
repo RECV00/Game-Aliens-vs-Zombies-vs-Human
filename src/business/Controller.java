@@ -46,11 +46,7 @@ public class Controller {
 				Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
 		
 		
-		
-		
-		
 		this.ui.getBMovement().setOnAction(e->{
-			
 			lo.moveEntities(ui.getButtonMatrix());
 			ui.updateButtonMatrix(ui.getButtonMatrix());
             
