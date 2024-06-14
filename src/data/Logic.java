@@ -187,6 +187,7 @@ public void resolveConflicts(Button[][] buttonMatrix) {
             String entity = buttonMatrix[i][j].getText();
             List<String> neighbors = new ArrayList<>();
 
+// 9hacer contado para saber la cantidad de letras de u boton char e0 =entity.charAt(0);
             if (i > 0) neighbors.add(buttonMatrix[i - 1][j].getText());
             if (i < rows - 1) neighbors.add(buttonMatrix[i + 1][j].getText());
             if (j > 0) neighbors.add(buttonMatrix[i][j - 1].getText());
