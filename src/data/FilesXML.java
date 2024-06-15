@@ -67,7 +67,7 @@ public class FilesXML {
 	}
 //	--------------------------------------------------------------------------------------------
 	
-	public void writeXML(String fileName, String elementType, String[] dataName,String[] data ) {
+	public static void writeXML(String fileName, String elementType, String[] dataName,String[] data ) {
 		
 		try {
 			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -114,7 +114,7 @@ public class FilesXML {
 		}
 	}
 	
-//	----------------------------------------------------------------------------------------
+//	--EXTRAE TAMAÑO MATRIZ--------------------------------------------------------------------------------------
 	
 	public String searchXMLSize(String address) {
 	    String information = "";
@@ -148,27 +148,40 @@ public class FilesXML {
 
 	    return information;
 	}
-	public void updateXML(int posimasCount,String address) {
+	
+//	--EXTRAE Potion--------------------------------------------------------------------------------------
+	
+	public String searchXMLPotion(String address) {
+	    String information = "";
+
 	    try {
-	        // Cargar el archivo XML
+	        File file = new File(address);
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-	        Document doc = dBuilder.parse(address); // la ruta correcta del archivo XML
+	        Document doc = dBuilder.parse(file);
 	        doc.getDocumentElement().normalize();
 
-	        // Obtener el elemento de las posimas y actualizar su valor
-	        Element rootElement = doc.getDocumentElement();
-	        rootElement.getElementsByTagName("potion").item(0).setTextContent(String.valueOf(posimasCount));
+	        NodeList nodeList = doc.getElementsByTagName("Cities");
 
-	        // Guardar los cambios en el archivo XML
-	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-	        Transformer transformer = transformerFactory.newTransformer();
-	        DOMSource source = new DOMSource(doc);
-	        StreamResult result = new StreamResult(address); // la ruta correcta del archivo XML
-	        transformer.transform(source, result);
+	        for (int i = 0; i < nodeList.getLength(); i++) {
+	            Element element = (Element) nodeList.item(i);
+	            NodeList childNodes = element.getChildNodes();
+
+	            for (int j = 0; j < childNodes.getLength(); j++) {
+	                if (childNodes.item(j).getNodeName().equals("potion")) {
+	                    information = childNodes.item(j).getTextContent();
+	                    break;
+	                }
+	            }
+	            if (!information.isEmpty()) {
+	                break;
+	            }
+	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+
+	    return information;
 	}
 //-----------------------------------------------------------------------------------------------------
 	public ArrayList<City> readXMLArrayList(String FileName, String elementType) {
@@ -241,7 +254,8 @@ public class FilesXML {
 		return arrayLEvent;
 	}
 	
-	public void readXML(String address, String elementType) {
+//---------------------LEER EVENTOS----------------------------------------------------------------
+	public void readXMLEvents(String address, String elementType) {
 	    try {
 	        File inputFile = new File(address);
 	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -273,4 +287,67 @@ public class FilesXML {
 	        e.printStackTrace();
 	    }
 	}
+	
+	//---------------------LEER ESTADISTICA----------------------------------------------------------------
+	   public String readXMLStatistics(String address, String elementType) {
+	        StringBuilder result = new StringBuilder();
+
+	        try {
+	            File inputFile = new File(address);
+	            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	            Document doc = dBuilder.parse(inputFile);
+	            doc.getDocumentElement().normalize();
+
+	            NodeList nList = doc.getElementsByTagName(elementType);
+	            result.append(" ESTADISTICA DEL JUEGO ").append(doc.getDocumentElement().getNodeName()).append("\n");
+	           
+
+	            result.append("--------------------------------------------------\n");
+
+	            for (int index = 0; index < nList.getLength(); index++) {
+	                Node nNode = nList.item(index);
+
+	                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	                    Element eElement = (Element) nNode;
+
+//	                    result.append("\nElement Data: ").append(eElement.getNodeName()).append("\n");
+	                    result.append("Zombies: ").append(eElement.getElementsByTagName("zombies").item(0).getTextContent()).append("\n");
+	                    result.append("Humanos: ").append(eElement.getElementsByTagName("human").item(0).getTextContent()).append("\n");
+	                    result.append("Aliens: ").append(eElement.getElementsByTagName("aliens").item(0).getTextContent()).append("\n");
+	                    result.append("Póciones: ").append(eElement.getElementsByTagName("potion").item(0).getTextContent()).append("\n");
+	                }
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+
+	        return result.toString();
+	    }
+		  
+	   
+		public void updateXML(int posimasCount,String address) {
+		    try {
+		        // Cargar el archivo XML
+		        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		        Document doc = dBuilder.parse(address); // la ruta correcta del archivo XML
+		        doc.getDocumentElement().normalize();
+
+		        // Obtener el elemento de las posimas y actualizar su valor
+		        Element rootElement = doc.getDocumentElement();
+		        rootElement.getElementsByTagName("potion").item(0).setTextContent(String.valueOf(posimasCount));
+
+		        // Guardar los cambios en el archivo XML
+		        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		        Transformer transformer = transformerFactory.newTransformer();
+		        DOMSource source = new DOMSource(doc);
+		        StreamResult result = new StreamResult(address); // la ruta correcta del archivo XML
+		        transformer.transform(source, result);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		}
+		    
 }

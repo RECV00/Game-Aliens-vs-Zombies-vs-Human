@@ -129,36 +129,7 @@ public void moveEntities(Button[][] buttonMatrix) {
 }
 //--------------------------------------------------------------------------------------------------------
 // validaciones
-//private void moveEntity(String[][] newMatrix, String entity, int x, int y, Button[][] buttonMatrix) {
-//    int row = newMatrix.length;
-//    int column = newMatrix[0].length;
-//
-//    // Lista de direcciones posibles: arriba, abajo, izquierda, derecha
-//    int[] directions = { -1, 1, -1, 1 };
-//    int[] randomOrder = { 0, 1, 2, 3 };
-//    shuffleArray(randomOrder);
-//
-//    for (int index : randomOrder) {
-//        int dir = directions[index];
-//        if (dir == -1 || dir == 1) {
-//            int newX = x + dir;
-//            int newY = y;
-//            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
-//                newMatrix[newX][newY] += entity;
-//                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
-//                return;
-//            }
-//
-//            newX = x;
-//            newY = y + dir;
-//            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
-//                newMatrix[newX][newY] += entity;
-//                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
-//                return;
-//            }
-//        }
-//    }
-//}
+
 
 private  void moverElemento(int x, int y, Button[][] nuevaMatriz, String elemento) {
     Random random = new Random();
@@ -222,12 +193,12 @@ private void addPotion(Button[][] buttonMatrix) {
     }
 }
 //-------------------------------------------------------------------------------------------------------------
-public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
+public void eliminateEntities(Button[][] buttonMatrix, char entity) {
     for (int i = 0; i < buttonMatrix.length; i++) {
         for (int j = 0; j < buttonMatrix[0].length; j++) {
-            for (String entity : entities) {
-                buttonMatrix[i][j].setText(buttonMatrix[i][j].getText().replace(entity, ""));
-            }
+            String text = buttonMatrix[i][j].getText();
+            text = text.replace(Character.toString(entity), "");
+            buttonMatrix[i][j].setText(text);
         }
     }
 }
@@ -361,7 +332,7 @@ public void resolveConflicts(Button[][] buttonMatrix) {
                     if (evento != null) {
                         Events event = new Events(i, j, evento, result);
                         fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
-                        fXML.readXML("Acontecimientos.xml", "Acontecimiento");
+                        fXML.readXMLEvents("Acontecimientos.xml", "Acontecimiento");
                         assignToAdjacentEmptyButtons(updatedMatrix, i, j, newLetter, num);
                         updatedMatrix[i][j].setText(String.valueOf(newLetter)); // Actualiza el texto en la matriz actualizada
                     }

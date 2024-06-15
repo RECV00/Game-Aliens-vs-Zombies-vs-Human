@@ -4,6 +4,7 @@ package business;
 import data.FilesXML;
 import data.Logic;
 import domain.City;
+import domain.Statistics;
 import javafx.stage.Stage;
 import presentation.UI;
 
@@ -13,6 +14,7 @@ public class Controller {
 	private City city;
 	private FilesXML fXML;
 	private Logic lo;
+	private Statistics sta;
 	private Stage secundaryStage;
 
 	
@@ -23,9 +25,13 @@ public class Controller {
 		city = new City();
 		fXML = new FilesXML();
 		lo = new Logic(ui);
+		sta = new Statistics();
 //		fXML.creatXML("City", "Descripcion de la Ciudad.xml");
-//		fXML.deleteXML("Acontecimientos.xml" );
+		fXML.deleteXML("Acontecimientos.xml" );
+		fXML.deleteXML("Estadisticas del Juego.xml" );
+		
 		fXML.creatXML("Acontecimiento","Acontecimientos.xml" );
+		fXML.creatXML("Statistics","Estadisticas del Juego.xml" );
 		getControl();
 	}
 //--------------------------------------------------------------------------------------------------
@@ -42,38 +48,31 @@ public class Controller {
 						   Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")));
 		ui.setGPMatrix(ui.getButtonMatrix());
 		ui.getPContainer().getChildren().add(ui.getGPMatrix());
-		
-		
 		lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")),
 				Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")));
 		
-		
-		
-		
+//----------------------------------------------------------------------------------------------------------------		
 		
 		this.ui.getBMovement().setOnAction(e->{
-			
-		
 				lo.moveEntities(ui.getButtonMatrix());
-//				ui.updateButtonMatrix(ui.getButtonMatrix());
 				lo.resolveConflicts(ui.getButtonMatrix());
 				ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
 				
-		
-			
 		});
 	
 		
 		this.ui.getBExterminationZombies().setOnAction(e->{
-			
-			
-			
+			lo.eliminateEntities(ui.getButtonMatrix(), 'Z');
+			sta.countAndReportLetters(ui.getButtonMatrix());
+			System.out.println(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+			ui.notify(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
 		});
 		
-		this.ui.getBExterminationZombies().setOnAction(e->{
-			
-			
-			
+		this.ui.getBExterminationAliens().setOnAction(e->{
+			lo.eliminateEntities(ui.getButtonMatrix(), 'A');
+			sta.countAndReportLetters(ui.getButtonMatrix());
+			System.out.println(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+			ui.notify(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
 		});
 	
 	}
