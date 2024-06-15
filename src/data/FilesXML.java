@@ -148,6 +148,28 @@ public class FilesXML {
 
 	    return information;
 	}
+	public void updateXML(int posimasCount,String address) {
+	    try {
+	        // Cargar el archivo XML
+	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(address); // la ruta correcta del archivo XML
+	        doc.getDocumentElement().normalize();
+
+	        // Obtener el elemento de las posimas y actualizar su valor
+	        Element rootElement = doc.getDocumentElement();
+	        rootElement.getElementsByTagName("potion").item(0).setTextContent(String.valueOf(posimasCount));
+
+	        // Guardar los cambios en el archivo XML
+	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+	        Transformer transformer = transformerFactory.newTransformer();
+	        DOMSource source = new DOMSource(doc);
+	        StreamResult result = new StreamResult(address); // la ruta correcta del archivo XML
+	        transformer.transform(source, result);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 //-----------------------------------------------------------------------------------------------------
 	public ArrayList<City> readXMLArrayList(String FileName, String elementType) {
 		ArrayList<City> arrayLCity = new ArrayList<City>();

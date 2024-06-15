@@ -35,6 +35,7 @@ public class Controller {
 //fXML.writeXML("Descripcion de la Ciudad.xml", "Cities",city.getDataName(), city.getData());
 	
 		System.out.println(fXML.searchXMLSize("Descripcion de la Ciudad.xml"));
+		
 //		fXML.readXMLArrayList("Descripcion de la Ciudad.xml", "Cities")
 		
 		ui.setButtonMatrix(Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")), 

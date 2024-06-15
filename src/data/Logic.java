@@ -22,12 +22,15 @@ public class Logic {
 	private Random random;
 	private Events events;
 	private FilesXML fXML;
+	private int moveCounter;
+	private int posimasCount;//cantidades P
 	
 	public Logic(UI ui) {
 		this.ui = ui;
 		events = new Events();
 		fXML = new FilesXML();
 		this.random = new Random();
+		this.moveCounter=0;
 	}
 
 
@@ -41,7 +44,7 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         Element rootElement = doc.getDocumentElement();
         int zombiesCount = Integer.parseInt(rootElement.getElementsByTagName("zombies").item(0).getTextContent().trim());
         int aliensCount = Integer.parseInt(rootElement.getElementsByTagName("aliens").item(0).getTextContent().trim());
-//        int posimasCount = Integer.parseInt(rootElement.getElementsByTagName("potion").item(0).getTextContent().trim());
+        int posimasCount = Integer.parseInt(rootElement.getElementsByTagName("potion").item(0).getTextContent().trim());
         int edificiosCount = Integer.parseInt(rootElement.getElementsByTagName("building").item(0).getTextContent().trim());
         int arbolesCount = Integer.parseInt(rootElement.getElementsByTagName("trees").item(0).getTextContent().trim());
         int humanosCount = Integer.parseInt(rootElement.getElementsByTagName("humans").item(0).getTextContent().trim());
@@ -59,6 +62,8 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         fillEntities(ui.getButtonMatrix(), occupiedCells, arbolesCount, "T", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, humanosCount, "H", random);
 
+        this.posimasCount=posimasCount;
+        
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -107,7 +112,14 @@ public void moveEntities(Button[][] buttonMatrix) {
             }
         }
     }
-
+    moveCounter++;
+  //Agrega P cada 5 movimientos si hay disponibles
+    if(moveCounter % 5 == 0 && posimasCount > 0) {
+    	addPotion(newMatrix);
+    	posimasCount--;// reduce la cantidad restante de P
+    	fXML.updateXML(posimasCount,"Descripcion de la Ciudad.xml"); //Actualiza el xml
+    	
+    }
     // Actualizar la matriz de botones con los movimientos realizados
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
@@ -194,7 +206,21 @@ private  boolean isValidMove(int x, int y, Button[][] buttonMatrix) {
     String text = buttonMatrix[x][y].getText();
     return !(text.contains("E") || text.contains("T"));
 }
+private void addPotion(Button[][] buttonMatrix) {
+    int row = buttonMatrix.length;
+    int column = buttonMatrix[0].length;
+    boolean added = false;
 
+    while (!added) {
+        int x = random.nextInt(row);
+        int y = random.nextInt(column);
+
+        if (buttonMatrix[x][y].getText().isEmpty()) {
+            buttonMatrix[x][y].setText("P");
+            added = true;
+        }
+    }
+}
 //-------------------------------------------------------------------------------------------------------------
 public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
     for (int i = 0; i < buttonMatrix.length; i++) {
@@ -205,7 +231,11 @@ public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
         }
     }
 }
-
+private void removeLetters(Button[][] buttonMatrix, int row, int column, String letters) {
+    for (char letter : letters.toCharArray()) {
+        buttonMatrix[row][column].setText(buttonMatrix[row][column].getText().replace(String.valueOf(letter), ""));
+    }
+}
 
 private List<String> getNeighbors(Button[][] buttonMatrix, int i, int j) {
     List<String> neighbors = new ArrayList<>();
@@ -305,7 +335,24 @@ public void resolveConflicts(Button[][] buttonMatrix) {
                         result = "A transf H";
                         newLetter = "Z"; //1
                         num = 1;
-                    } else {
+                    } else if (entity.contains("P") && neighbor.contains("Z")) {
+                        evento = "Tomar";
+                        result = "Z transf H";
+                        newLetter = "H"; //1
+                        num = 1;
+                        removeLetters(updatedMatrix,i,j,"PZ");
+                    }else if (entity.contains("P") && neighbor.contains("A")) {
+                        evento = "Tomar";
+                        result = "A transf H";
+                        newLetter = "H"; //1
+                        num = 1;
+                        removeLetters(updatedMatrix,i,j,"PA");
+                    }else if (entity.contains("P") && neighbor.contains("H")) {
+                        evento = "No pasa nada";
+                        result = "Continúa";
+                        newLetter = "PH"; //1
+                        num = 1;
+                    }             else {
                         // Si no cumple ninguna condición, separamos las letras
                         separateAndAssignToAdjacentButtons(updatedMatrix, i, j, entity);
                     }
