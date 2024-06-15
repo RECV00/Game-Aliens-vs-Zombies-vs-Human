@@ -218,4 +218,37 @@ public class FilesXML {
 		}
 		return arrayLEvent;
 	}
+	
+	public void readXML(String address, String elementType) {
+	    try {
+	        File inputFile = new File(address);
+	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(inputFile);
+	        doc.getDocumentElement().normalize();
+
+	        System.out.println("Raiz de los Elementos: " + doc.getDocumentElement().getNodeName());
+	        NodeList nList = doc.getElementsByTagName(elementType);
+
+	        System.out.println("--------------------------------------------------");
+
+	        for (int indice = 0; indice < nList.getLength(); indice++) {
+	            Node nNode = nList.item(indice);
+
+	            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+	                Element eElement = (Element) nNode;
+
+	                // Obtener y mostrar los datos específicos de cada elemento
+	                System.out.println("\nDatos de las personas: " + eElement.getNodeName());
+	                System.out.println("AVENIDA: " + eElement.getElementsByTagName("avenue").item(0).getTextContent());
+	                System.out.println("CALLE: " + eElement.getElementsByTagName("street").item(0).getTextContent());
+	                System.out.println("EVENTO: " + eElement.getElementsByTagName("event").item(0).getTextContent());
+	                System.out.println("RESULTADO: " + eElement.getElementsByTagName("result").item(0).getTextContent());
+	            }
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
 }

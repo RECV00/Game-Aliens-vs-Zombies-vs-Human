@@ -119,7 +119,7 @@ public class UI {
 		for(int i=0; i<buttonMatrix.length;i++) {
 			for(int j=0; j<buttonMatrix[0].length;j++) {
 				
-				buttonMatrix[i][j] = new Button(" ");
+				buttonMatrix[i][j] = new Button("");
 				buttonMatrix[i][j].setPrefSize(10,10);
 			}
 		}

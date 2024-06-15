@@ -88,26 +88,22 @@ public void moveEntities(Button[][] buttonMatrix) {
     int row = buttonMatrix.length;
     int column = buttonMatrix[0].length;
 
-    String[][] newMatrix = new String[row][column];
+    Button[][] newMatrix = new Button[row][column];
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
-            newMatrix[i][j] = "";
+            newMatrix[i][j] = new Button(buttonMatrix[i][j].getText());
         }
     }
 
-    // Copiar matriz actual a newMatrix
-    for (int i = 0; i < row; i++) {
-        for (int j = 0; j < column; j++) {
-            newMatrix[i][j] = buttonMatrix[i][j].getText();
-        }
-    }
 
-    // Mover todas las letras A, Z y H simultáneamente
+    /// Mover los elementos H, Z y A
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
-            String text = buttonMatrix[i][j].getText();
-            if (text.contains("A") || text.contains("Z") || text.contains("H")) {
-                moveEntity(newMatrix, text, i, j, buttonMatrix);
+            String texto = buttonMatrix[i][j].getText();
+            if (texto.contains("H") || texto.contains("Z") || texto.contains("A")) {
+                for (char elemento : texto.toCharArray()) {
+                    moverElemento(i, j, newMatrix, String.valueOf(elemento));
+                }
             }
         }
     }
@@ -115,58 +111,90 @@ public void moveEntities(Button[][] buttonMatrix) {
     // Actualizar la matriz de botones con los movimientos realizados
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
-            buttonMatrix[i][j].setText(newMatrix[i][j]);
+            buttonMatrix[i][j].setText(newMatrix[i][j].getText());
         }
     }
 }
 //--------------------------------------------------------------------------------------------------------
 // validaciones
-private void moveEntity(String[][] newMatrix, String entity, int x, int y, Button[][] buttonMatrix) {
-    int row = newMatrix.length;
-    int column = newMatrix[0].length;
+//private void moveEntity(String[][] newMatrix, String entity, int x, int y, Button[][] buttonMatrix) {
+//    int row = newMatrix.length;
+//    int column = newMatrix[0].length;
+//
+//    // Lista de direcciones posibles: arriba, abajo, izquierda, derecha
+//    int[] directions = { -1, 1, -1, 1 };
+//    int[] randomOrder = { 0, 1, 2, 3 };
+//    shuffleArray(randomOrder);
+//
+//    for (int index : randomOrder) {
+//        int dir = directions[index];
+//        if (dir == -1 || dir == 1) {
+//            int newX = x + dir;
+//            int newY = y;
+//            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
+//                newMatrix[newX][newY] += entity;
+//                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
+//                return;
+//            }
+//
+//            newX = x;
+//            newY = y + dir;
+//            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
+//                newMatrix[newX][newY] += entity;
+//                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
+//                return;
+//            }
+//        }
+//    }
+//}
 
-    // Lista de direcciones posibles: arriba, abajo, izquierda, derecha
-    int[] directions = { -1, 1, -1, 1 };
-    int[] randomOrder = { 0, 1, 2, 3 };
-    shuffleArray(randomOrder);
-
-    for (int index : randomOrder) {
-        int dir = directions[index];
-        if (dir == -1 || dir == 1) {
-            int newX = x + dir;
-            int newY = y;
-            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
-                newMatrix[newX][newY] += entity;
-                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
-                return;
-            }
-
-            newX = x;
-            newY = y + dir;
-            if (isValidMove(newMatrix, newX, newY, row, column, buttonMatrix)) {
-                newMatrix[newX][newY] += entity;
-                newMatrix[x][y] = newMatrix[x][y].replace(entity, "");
-                return;
-            }
+private  void moverElemento(int x, int y, Button[][] nuevaMatriz, String elemento) {
+    Random random = new Random();
+    boolean movimientoValido = false;
+    
+   
+    
+if(nuevaMatriz.length >= 4){
+	while (!movimientoValido) {
+        int direccion = random.nextInt(4) + 1;
+        int nuevoX = x, nuevoY = y;
+        switch (direccion) {
+            case 1: // Arriba
+                nuevoX = x - 1;
+                break;
+            case 2: // Abajo
+                nuevoX = x + 1;
+                break;
+            case 3: // Izquierda
+                nuevoY = y - 1;
+                break;
+            case 4: // Derecha
+                nuevoY = y + 1;
+                break;
         }
+        if (isValidMove(nuevoX, nuevoY, nuevaMatriz)) {
+            String currentText = nuevaMatriz[nuevoX][nuevoY].getText();
+            nuevaMatriz[nuevoX][nuevoY].setText(currentText + elemento);
+            String originalText = nuevaMatriz[x][y].getText();
+            nuevaMatriz[x][y].setText(originalText.replace(elemento, ""));
+            movimientoValido = true;
+        }
+	}
+      
     }
 }
 //-----------------------------------------------------------------------------------------------------------
-private boolean isValidMove(String[][] matrix, int x, int y, int row, int column, Button[][] buttonMatrix) {
-    return x >= 0 && x < row && y >= 0 && y < column &&
-            !matrix[x][y].contains("E") && !matrix[x][y].contains("T") && !matrix[x][y].contains("P");
+private  boolean isValidMove(int x, int y, Button[][] buttonMatrix) {
+	int row = buttonMatrix.length;
+    int column = buttonMatrix[0].length;
+    if (x < 0 || x >= row || y < 0 || y >= column) {
+        return false;
+    }
+
+    String text = buttonMatrix[x][y].getText();
+    return !(text.contains("E") || text.contains("T"));
 }
 
-private void shuffleArray(int[] array) {
-    Random random = new Random();
-    for (int i = array.length - 1; i > 0; i--) {
-        int index = random.nextInt(i + 1);
-        // Swap
-        int temp = array[index];
-        array[index] = array[i];
-        array[i] = temp;
-    }
-}
 //-------------------------------------------------------------------------------------------------------------
 public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
     for (int i = 0; i < buttonMatrix.length; i++) {
@@ -178,88 +206,189 @@ public void eliminateEntities(Button[][] buttonMatrix, String... entities) {
     }
 }
 
-public void resolveConflicts(Button[][] buttonMatrix) {
+
+private List<String> getNeighbors(Button[][] buttonMatrix, int i, int j) {
+    List<String> neighbors = new ArrayList<>();
     int rows = buttonMatrix.length;
     int columns = buttonMatrix[0].length;
 
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < columns; j++) { 
-            String entity = buttonMatrix[i][j].getText();
-            List<String> neighbors = new ArrayList<>();
+    if (i > 0) neighbors.add(buttonMatrix[i - 1][j].getText());
+    if (i < rows - 1) neighbors.add(buttonMatrix[i + 1][j].getText());
+    if (j > 0) neighbors.add(buttonMatrix[i][j - 1].getText());
+    if (j < columns - 1) neighbors.add(buttonMatrix[i][j + 1].getText());
 
-// 9hacer contado para saber la cantidad de letras de u boton char e0 =entity.charAt(0);
-            if (i > 0) neighbors.add(buttonMatrix[i - 1][j].getText());
-            if (i < rows - 1) neighbors.add(buttonMatrix[i + 1][j].getText());
-            if (j > 0) neighbors.add(buttonMatrix[i][j - 1].getText());
-            if (j < columns - 1) neighbors.add(buttonMatrix[i][j + 1].getText());
+    return neighbors;
+}
 
-            boolean conflictResolved = false;
-            
-            for (String neighbor : neighbors) {
-                String evento = null;
-                String result = null;
-                String newLetter = null;
-                if (entity.equals("A") && neighbor.equals("Z")) {
-                    evento = "Transformar";
-                    result = "Alien se transforma a Zombie";
-                    newLetter = "Z";
-                } else if (entity.equals("Z") && neighbor.equals("H")) {
-                    evento = "Transformar";
-                    result = "Humano se transforma a Zombie";
-                    newLetter = "Z";
-                } else if (entity.equals("A") && neighbor.equals("H")) {
-                    evento = "Asesinato";
-                    result = "Muere humano";
-                    newLetter = "A";
-                } else if (entity.equals("Z") && neighbor.equals("P")) {
-                    evento = "Tomar";
-                    result = "Zombie se transforma en Humano";
-                    newLetter = "H";
-                } else if (entity.equals("A") && neighbor.equals("P")) {
-                    evento = "Tomar";
-                    result = "Alien se transforma en Humano";
-                    newLetter = "H";
-                } else if (entity.equals("Z") && neighbor.equals("Z") && entity.equals("A") && neighbor.equals("A")) {
-                    evento = "Transformar";
-                    result = "Aliens se transforma en Zombie";
-                    newLetter = "Z";
-                } else if (entity.equals("Z") && neighbor.equals("Z") && entity.equals("A")) {
-                    evento = "Asesinato";
-                    result = "Muere Alien";
-                    newLetter = "Z";
-                } else if (entity.equals("A") && neighbor.equals("A") && entity.equals("Z")) {
-                    evento = "Asesinato";
-                    result = "Muere Zombie";
-                    newLetter = "A";
-                } else if (entity.equals("Z") && neighbor.equals("Z")) {
-                    evento = "Pelea";
-                    result = "Continúan";
-                    newLetter = "Z";
-                } else if (entity.equals("A") && neighbor.equals("A")) {
-                    evento = "Pelea";
-                    result = "Continúan";
-                    newLetter = "A";
-                }
+public void resolveConflicts(Button[][] buttonMatrix) {
+    int row = buttonMatrix.length;
+    int column = buttonMatrix[0].length;
+    Button[][] updatedMatrix = new Button[row][column];
 
-                if (result != null) {
-                    conflictResolved = true;
-                    Events event = new Events(i, j, evento, result);
-                    System.out.println(event); // Mensaje de depuración
+    // Copiar la matriz original en la matriz actualizada
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            updatedMatrix[i][j] = new Button(buttonMatrix[i][j].getText()); // Copia el texto del botón original
+        }
+    }
 
-                    // Usar la instancia event para obtener los datos y escribir en el XML
-                    fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
-//                    ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
+    // Iterar sobre la matriz para resolver conflictos
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            String entity = updatedMatrix[i][j].getText();
 
-                    // Actualizar el botón con la nueva letra
-                    if (newLetter != null) {
-                        buttonMatrix[i][j].setText(newLetter);
+            // Si el botón tiene más de una entidad, resolver conflictos
+            if (entity.length() > 1) {
+                List<String> neighbors = getNeighbors(buttonMatrix, i, j);
+
+                // Iterar sobre los vecinos para resolver conflictos
+                for (String neighbor : neighbors) {
+                    String evento = null;
+                    String result = "Sigue Jugando";
+                   
+                    String newLetter = entity; // Por defecto, no cambia
+                    
+                    int num = 0;
+
+                    // Lógica para resolver conflictos según las reglas establecidas
+                    if (entity.contains("A") && neighbor.contains("Z")) {
+                        evento = "Transformar";
+                        result = "A transf Z";
+                        newLetter = "Z"; //2
+                        num = 2;
+                    } else if (entity.contains("Z") && neighbor.contains("Z")) {
+                        evento = "Pelea";
+                        result = "Continúan";
+                        newLetter = "Z"; //2
+                        num = 2;
+                    } else if (entity.contains("A") && neighbor.contains("H")) {
+                        evento = "Asesinato";
+                        result = "Muere H";
+                        newLetter = "A"; //1
+                        num = 1;
+                    } else if (entity.contains("A") && neighbor.contains("A")) {
+                        evento = "Pelea";
+                        result = "Continúan";
+                        newLetter = "A"; //2
+                    } else if (entity.contains("Z") && neighbor.contains("H")) {
+                        evento = "Transformar";
+                        result = "H transf Z";
+                        newLetter = "Z"; //2
+                        num = 2;
+                    } else if (entity.contains("Z") && neighbor.contains("Z") && neighbor.contains("A") && neighbor.contains("A")) {
+                        evento = "Transformar";
+                        result = "A transf Z";
+                        newLetter = "Z"; //4
+                        num = 4;
+                    } else if (entity.contains("Z") && neighbor.contains("Z") && neighbor.contains("A")) {
+                        evento = "Asesinato";
+                        result = "Muere A";
+                        newLetter = "Z"; //2
+                        num = 2;
+                    } else if (entity.contains("A") && neighbor.contains("A") && neighbor.contains("Z")) {
+                        evento = "Asesinato";
+                        result = "Muere Z";
+                        newLetter ="Z"; //2
+                        num = 2;
+                    } else if ((entity.contains("AAA") || entity.contains("ZZZ") || entity.contains("HHH")) && !entity.contains(neighbor)) {
+                        evento = "Pelea";
+                        result = "Muere especie minoría";
+                        newLetter = entity; // Ajusta esta letra según sea necesario
+                        num = 3;
+                    } else if (entity.contains("Z") && neighbor.contains("P")) {
+                        evento = "Tomar";
+                        result = "Z transf H";
+                        newLetter = "Z"; //1
+                        num = 1;
+                    } else if (entity.contains("A") && neighbor.contains("P")) {
+                        evento = "Tomar";
+                        result = "A transf H";
+                        newLetter = "Z"; //1
+                        num = 1;
+                    } else {
+                        // Si no cumple ninguna condición, separamos las letras
+                        separateAndAssignToAdjacentButtons(updatedMatrix, i, j, entity);
                     }
+
+                    // Si se resuelve un conflicto, actualizamos la matriz actualizada y guardamos el evento
+                    if (evento != null) {
+                        Events event = new Events(i, j, evento, result);
+                        fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
+                        fXML.readXML("Acontecimientos.xml", "Acontecimiento");
+                        assignToAdjacentEmptyButtons(updatedMatrix, i, j, newLetter, num);
+                        updatedMatrix[i][j].setText(String.valueOf(newLetter)); // Actualiza el texto en la matriz actualizada
+                    }
+                }
+            }
+        }
+    }
+
+    // Actualizar la matriz original con la matriz actualizada
+    for (int i = 0; i < row; i++) {
+        for (int j = 0; j < column; j++) {
+            buttonMatrix[i][j].setText(updatedMatrix[i][j].getText()); // Actualiza el texto en la matriz original
+        }
+    }
+
+    ui.updateButtonMatrix(buttonMatrix); // Actualiza la interfaz de usuario con la matriz original actualizada
+}
+
+private void separateAndAssignToAdjacentButtons(Button[][] updatedMatrix, int row, int column, String entities) {
+    int rows = updatedMatrix.length;
+    int cols = updatedMatrix[0].length;
+
+    int count = entities.length();
+    int assignedCount = 0;
+    // Buscar en las 4 direcciones adyacentes
+    int[][] directions = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+    for (int[] dir : directions) {
+        int newRow = row + dir[0];
+        int newCol = column + dir[1];
+
+        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+            Button adjacentButton = updatedMatrix[newRow][newCol];
+            if (adjacentButton.getText().isEmpty()) {
+                adjacentButton.setText(Character.toString(entities.charAt(assignedCount)));
+                assignedCount++;
+                
+                if (assignedCount == count) {
+                    break;
                 }
             }
         }
     }
 }
 
+
+
+private void assignToAdjacentEmptyButtons(Button[][] buttonMatrix, int row, int column, String letter, int count) {
+    int rows = buttonMatrix.length;
+    int cols = buttonMatrix[0].length;
+
+    int assignedCount = 0;
+    // Buscar en las 4 direcciones adyacentes
+    int[][] directions = { {0, 1}, {1, 0}, {0, -1}, {-1, 0} };
+
+    for (int[] dir : directions) {
+        int newRow = row + dir[0];
+        int newCol = column + dir[1];
+
+        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+            Button adjacentButton = buttonMatrix[newRow][newCol];
+            if (adjacentButton.getText().isEmpty()) {
+                adjacentButton.setText(letter);
+                assignedCount++;
+                
+                if (assignedCount == count) {
+                    break;
+                }
+            }
+        }
+    }
 }
 
 
+
+
+}
