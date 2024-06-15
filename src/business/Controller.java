@@ -34,17 +34,17 @@ public class Controller {
 //city= new City(20,20,20,15,15,15,15);
 //fXML.writeXML("Descripcion de la Ciudad.xml", "Cities",city.getDataName(), city.getData());
 	
-		System.out.println(fXML.searchXML("Descripcion de la Ciudad.xml"));
+		System.out.println(fXML.searchXMLSize("Descripcion de la Ciudad.xml"));
 //		fXML.readXMLArrayList("Descripcion de la Ciudad.xml", "Cities")
 		
-		ui.setButtonMatrix(Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")), 
-						   Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
+		ui.setButtonMatrix(Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")), 
+						   Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")));
 		ui.setGPMatrix(ui.getButtonMatrix());
 		ui.getPContainer().getChildren().add(ui.getGPMatrix());
 		
 		
-		lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")),
-				Integer.parseInt(fXML.searchXML("Descripcion de la Ciudad.xml")));
+		lo.fillButtonMatrixWithEntitiesFromXML("Descripcion de la Ciudad.xml", Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")),
+				Integer.parseInt(fXML.searchXMLSize("Descripcion de la Ciudad.xml")));
 		
 		
 		

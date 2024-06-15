@@ -116,7 +116,7 @@ public class FilesXML {
 	
 //	----------------------------------------------------------------------------------------
 	
-	public String searchXML(String address) {
+	public String searchXMLSize(String address) {
 	    String information = "";
 
 	    try {
