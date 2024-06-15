@@ -199,6 +199,7 @@ public class UI {
 
     public void dataTableView(ArrayList<Events> Acontecimiento) {
     	eventList1.setAll(Acontecimiento);
+    	tableView.scrollTo(eventList1.size() - 1); //se mueve junto la info 
     }
 	
 //-----------------------------------------------------------------------------------------------------
