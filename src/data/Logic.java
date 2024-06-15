@@ -87,8 +87,14 @@ private void fillEntities(Button[][] buttonMatrix, boolean[][] occupiedCells, in
             y = random.nextInt(column);
         } while (occupiedCells[x][y]);
 
-            occupiedCells[x][y] = true; // si esta ocupada
+        occupiedCells[x][y] = true; // si esta ocupada
         buttonMatrix[x][y].setText(entity);
+     // Aplicar color a los botones con E y T
+        if (entity.equals("E")) {
+            buttonMatrix[x][y].setStyle("-fx-background-color: grey;"); // Color verde para "E"
+        } else if (entity.equals("T")) {
+            buttonMatrix[x][y].setStyle("-fx-background-color: green;"); // Color azul para "T"
+        }
     }
 }
 public void moveEntities(Button[][] buttonMatrix) {
@@ -103,12 +109,13 @@ public void moveEntities(Button[][] buttonMatrix) {
     }
 
 
-    /// Mover los elementos H, Z y A
+    /// Mover los elementos H, Z y A pero la P no
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
             String texto = buttonMatrix[i][j].getText();
             if (texto.contains("H") || texto.contains("Z") || texto.contains("A")) {
                 for (char elemento : texto.toCharArray()) {
+                	if(elemento == 'P')continue;
                     moverElemento(i, j, newMatrix, String.valueOf(elemento));
                 }
             }
@@ -125,9 +132,20 @@ public void moveEntities(Button[][] buttonMatrix) {
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
             buttonMatrix[i][j].setText(newMatrix[i][j].getText());
+         // Aplicar color a los botones con E y T al crear la matriz
+            String texto = newMatrix[i][j].getText();
+            if (texto.contains("E")) {
+                buttonMatrix[i][j].setStyle("-fx-background-color: grey;"); // Color verde para "E"
+            } else if (texto.contains("T")) {
+                buttonMatrix[i][j].setStyle("-fx-background-color: green;"); // Color azul para "T"
+            } else {
+                buttonMatrix[i][j].setStyle(""); // Restablecer color para otros botones
+            }
         }
+        }
+        
     }
-}
+
 //--------------------------------------------------------------------------------------------------------
 // validaciones
 
@@ -201,11 +219,6 @@ public void eliminateEntities(Button[][] buttonMatrix, char entity) {
             text = text.replace(Character.toString(entity), "");
             buttonMatrix[i][j].setText(text);
         }
-    }
-}
-private void removeLetters(Button[][] buttonMatrix, int row, int column, String letters) {
-    for (char letter : letters.toCharArray()) {
-        buttonMatrix[row][column].setText(buttonMatrix[row][column].getText().replace(String.valueOf(letter), ""));
     }
 }
 
@@ -297,34 +310,17 @@ public void resolveConflicts(Button[][] buttonMatrix) {
                         result = "Muere especie minoría";
                         newLetter = entity; // Ajusta esta letra según sea necesario
                         num = 3;
-                    } else if (entity.contains("Z") && neighbor.contains("P")) {
-                        evento = "Tomar";
-                        result = "Z transf H";
-                        newLetter = "Z"; //1
-                        num = 1;
-                    } else if (entity.contains("A") && neighbor.contains("P")) {
-                        evento = "Tomar";
-                        result = "A transf H";
-                        newLetter = "Z"; //1
-                        num = 1;
                     } else if (entity.contains("P") && neighbor.contains("Z")) {
                         evento = "Tomar";
                         result = "Z transf H";
                         newLetter = "H"; //1
                         num = 1;
-                        removeLetters(updatedMatrix,i,j,"PZ");
                     }else if (entity.contains("P") && neighbor.contains("A")) {
                         evento = "Tomar";
                         result = "A transf H";
                         newLetter = "H"; //1
                         num = 1;
-                        removeLetters(updatedMatrix,i,j,"PA");
-                    }else if (entity.contains("P") && neighbor.contains("H")) {
-                        evento = "No pasa nada";
-                        result = "Continúa";
-                        newLetter = "PH"; //1
-                        num = 1;
-                    }             else {
+                    }else {
                         // Si no cumple ninguna condición, separamos las letras
                         separateAndAssignToAdjacentButtons(updatedMatrix, i, j, entity);
                     }
