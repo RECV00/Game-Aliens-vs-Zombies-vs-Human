@@ -31,6 +31,8 @@ public class Logic {
 		fXML = new FilesXML();
 		this.random = new Random();
 		this.moveCounter=0;
+		this.posimasCount= Integer.parseInt(fXML.searchXMLPotion("Descripcion de la Ciudad.xml"));
+
 	}
 
 
@@ -117,7 +119,6 @@ public void moveEntities(Button[][] buttonMatrix) {
     if(moveCounter % 5 == 0 && posimasCount > 0) {
     	addPotion(newMatrix);
     	posimasCount--;// reduce la cantidad restante de P
-    	fXML.updateXML(posimasCount,"Descripcion de la Ciudad.xml"); //Actualiza el xml
     	
     }
     // Actualizar la matriz de botones con los movimientos realizados
