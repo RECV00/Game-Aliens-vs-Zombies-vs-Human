@@ -57,7 +57,7 @@ public class Controller {
 				lo.moveEntities(ui.getButtonMatrix());
 				lo.resolveConflicts(ui.getButtonMatrix());
 				ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
-				
+				System.out.println(lo.posimasCount);
 		});
 	
 		

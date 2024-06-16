@@ -23,7 +23,7 @@ public class Logic {
 	private Events events;
 	private FilesXML fXML;
 	private int moveCounter;
-	private int posimasCount;//cantidades P
+	public int posimasCount;//cantidades P
 	
 	public Logic(UI ui) {
 		this.ui = ui;
@@ -31,7 +31,7 @@ public class Logic {
 		fXML = new FilesXML();
 		this.random = new Random();
 		this.moveCounter=0;
-		this.posimasCount= Integer.parseInt(fXML.searchXMLPotion("Descripcion de la Ciudad.xml"));
+	
 
 	}
 
