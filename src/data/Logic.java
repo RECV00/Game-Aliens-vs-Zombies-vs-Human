@@ -138,7 +138,10 @@ public void moveEntities(Button[][] buttonMatrix) {
                 buttonMatrix[i][j].setStyle("-fx-background-color: grey;"); // Color verde para "E"
             } else if (texto.contains("T")) {
                 buttonMatrix[i][j].setStyle("-fx-background-color: green;"); // Color azul para "T"
-            } else {
+            }else if(texto.contains("P")) {
+            	buttonMatrix[i][j].setStyle("-fx-background-color: skyBlue;");
+            }
+            else {
                 buttonMatrix[i][j].setStyle(""); // Restablecer color para otros botones
             }
         }
