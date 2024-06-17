@@ -1,43 +1,25 @@
 package data;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.Random;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Entity;
-
-import javafx.application.Platform;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import presentation.UI;
-import domain.City;
 import domain.Events;
 public class Logic {
-	
 	private UI ui;
 	private Random random;
-	private Events events;
 	private FilesXML fXML;
 	private int moveCounter;
 	public int posimasCount;//cantidades P
 	
 	public Logic(UI ui) {
 		this.ui = ui;
-		events = new Events();
 		fXML = new FilesXML();
 		this.random = new Random();
 		this.moveCounter=0;
-	
-
 	}
-
 // ----------------EXTRAE DATOS--------------------------------------------------------------------------------------------------------------
 public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int column) {
     try {
@@ -45,7 +27,6 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(fileAddress);
         doc.getDocumentElement().normalize();
-
         Element rootElement = doc.getDocumentElement();
         int zombiesCount = Integer.parseInt(rootElement.getElementsByTagName("zombies").item(0).getTextContent().trim());
         int aliensCount = Integer.parseInt(rootElement.getElementsByTagName("aliens").item(0).getTextContent().trim());
@@ -53,36 +34,28 @@ public void fillButtonMatrixWithEntitiesFromXML(String fileAddress, int row, int
         int edificiosCount = Integer.parseInt(rootElement.getElementsByTagName("building").item(0).getTextContent().trim());
         int arbolesCount = Integer.parseInt(rootElement.getElementsByTagName("trees").item(0).getTextContent().trim());
         int humanosCount = Integer.parseInt(rootElement.getElementsByTagName("humans").item(0).getTextContent().trim());
-
         Random random = new Random();
-
         // Inicializar una matriz auxiliar para rastrear qué celdas ya están ocupadas por elementos
         boolean[][] occupiedCells = new boolean[row][column];
-
         // Llenar la matriz con todas las caracteristicas del xml
         fillEntities(ui.getButtonMatrix(), occupiedCells, zombiesCount, "Z", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, aliensCount, "A", random);
-//        fillEntities(ui.getButtonMatrix(), occupiedCells, posimasCount, "P", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, edificiosCount,"E", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, arbolesCount, "T", random);
         fillEntities(ui.getButtonMatrix(), occupiedCells, humanosCount, "H", random);
-
+        
         this.posimasCount=posimasCount;
         
     } catch (Exception e) {
         e.printStackTrace();
     }
 }
-
-
-//----------------LLENA MATRIZ CON AZHPET Y LAS MUEVE Y VALIDA MIVIMIENTOS--------------------------------------------------------------------------------------------------------------
+//----------------LLENA MATRIZ CON AZHET Y LAS MUEVE--------------------------------------------------------------------------------------------------------------
 private void fillEntities(Button[][] buttonMatrix, boolean[][] occupiedCells, int count, String entity, Random random) {
     int row = buttonMatrix.length ;
-    int column = buttonMatrix[0].length;
-    
+    int column = buttonMatrix[0].length;  
     // Cantidad de entidades no sea mayor que el tamaño de la matriz
     count = Math.min(count, row * column);
-
     // Llenar
     for (int i = 0; i < count; i++) {
         int x, y;
@@ -91,31 +64,25 @@ private void fillEntities(Button[][] buttonMatrix, boolean[][] occupiedCells, in
             x = random.nextInt(row);
             y = random.nextInt(column);
         } while (occupiedCells[x][y]);
-
         occupiedCells[x][y] = true; // si esta ocupada
         buttonMatrix[x][y].setText(entity);
      // Aplicar color a los botones con E y T
         if (entity.equals("E")) {
-            buttonMatrix[x][y].setStyle("-fx-background-color: grey;"); // Color verde para "E"
+            buttonMatrix[x][y].setStyle("-fx-background-color: #6a7686;"); // Color verde para "E"
         } else if (entity.equals("T")) {
-            buttonMatrix[x][y].setStyle("-fx-background-color: green;"); // Color azul para "T"
+            buttonMatrix[x][y].setStyle("-fx-background-color: #95B18F;"); // Color azul para "T"
         }
     }
 }
-
-
-
 public void moveEntities(Button[][] buttonMatrix) {
     int row = buttonMatrix.length;
     int column = buttonMatrix[0].length;
-
     Button[][] newMatrix = new Button[row][column];
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
             newMatrix[i][j] = new Button(buttonMatrix[i][j].getText());
         }
     }
-
     /// Mover los elementos H, Z y A pero la P no
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
@@ -123,21 +90,17 @@ public void moveEntities(Button[][] buttonMatrix) {
             if (texto.contains("H") || texto.contains("Z") || texto.contains("A")) {
                 for (char elemento : texto.toCharArray()) {
                 	if(elemento == 'P')continue;//no se mueve P
-                    moverElemento(i, j, newMatrix, String.valueOf(elemento));
-                   
+                    moverElemento(i, j, newMatrix, String.valueOf(elemento)); 
                 }
             }
-        }
-        
+        }  
     }
     moveCounter++;
   //Agrega P cada 5 movimientos si hay disponibles
     if(moveCounter % 5 == 0 && posimasCount > 0) {
     	addPotion(newMatrix);
-    	posimasCount--;// reduce la cantidad restante de P
-    	
+    	posimasCount--;// reduce la cantidad restante de P 	
     }
-   
     // Actualizar la matriz de botones con los movimientos realizados
     for (int i = 0; i < row; i++) {
         for (int j = 0; j < column; j++) {
@@ -145,14 +108,14 @@ public void moveEntities(Button[][] buttonMatrix) {
          // Aplicar color a los botones con E y T al crear la matriz
             String texto = newMatrix[i][j].getText();
             if (texto.contains("E")) {
-            	 buttonMatrix[i][j].setStyle("-fx-background-color: grey;"); // Color gris para "E"
+            	 buttonMatrix[i][j].setStyle("-fx-background-color: #a69cac;"); // Color gris para "E"
             } else if (texto.contains("T")) {
-                buttonMatrix[i][j].setStyle("-fx-background-color: green;"); // Color verde "T"
+                buttonMatrix[i][j].setStyle("-fx-background-color: #95B18F;"); // Color verde "T"
             }else if(texto.contains("P")) {
-            	buttonMatrix[i][j].setStyle("-fx-background-color: skyBlue;");// Color celeste "T"
+            	buttonMatrix[i][j].setStyle("-fx-background-color: skyBlue;");// Color celeste "P"
             }
             else {
-                buttonMatrix[i][j].setStyle(""); // Restablecer color para otros botones
+                buttonMatrix[i][j].setStyle("-fx-background-color: #f2e6cf;"); // Restablecer color para otros botones
             }
         }
     }
@@ -373,7 +336,7 @@ public void resolveConflicts(Button[][] buttonMatrix) {
                 
               }
                 if (evento != null) {
-         
+   
                     Events event = new Events(i, j, evento, result);
                     fXML.writeXML("Acontecimientos.xml", "Acontecimiento", event.getDataName(), event.getData());
                     assignToAdjacentEmptyButtons(updatedMatrix, i, j, newLetter, num);

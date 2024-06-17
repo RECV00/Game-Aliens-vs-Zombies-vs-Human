@@ -5,17 +5,19 @@ import javafx.scene.control.Button;
 
 public class Statistics {
 
+	private FilesXML fXML;
 	private int zombies;
 	private int human;
 	private int aliens;
 	private int potion;
 	
 	public Statistics() {
-		
+		fXML = new FilesXML();
 	}
 
 	public Statistics(int zombies, int human, int aliens, int potion) {
 		super();
+		fXML = new FilesXML();
 		this.zombies = zombies;
 		this.human = human;
 		this.aliens = aliens;
@@ -61,11 +63,8 @@ public class Statistics {
 		return dataName;
 	}
 	
-	
-	
-	
-
-	    public void countAndReportLetters(Button[][] buttonMatrix) {
+//	cuenta las letras que tiene la matriz 
+	   public void countAndReportLetters(Button[][] buttonMatrix) {
 
 	        for (int i = 0; i < buttonMatrix.length; i++) {
 	            for (int j = 0; j < buttonMatrix[0].length; j++) {
@@ -97,14 +96,12 @@ public class Statistics {
 	        System.out.println("H: " + human);
 	        System.out.println("Z: " + zombies);
 	        System.out.println("P: " + potion);
-
-	       
-	        
-//	        Statistics estadistica = new Statistics(aliens,human,zombies,potion);
-	       FilesXML.writeXML("Estadisticas del Juego.xml", "Statistic", getDataName(), getData());
+//	     llena los datos de finalizado,, y lños escribe en estadistica del juego   
+	       fXML.writeXML("Estadisticas del Juego.xml", "Statistic", getDataName(), getData());
 	    }
 
-	    public String[] getData() {
+//	valida las cantidades de las entidades y dependiendo del resultado realiza la escritura   
+	   public String[] getData() {
 	        // Verificar si zombies o aliens0
 	        if (zombies == 0) {
 	            // Si es así, escribir "exterminio" en lugar del número

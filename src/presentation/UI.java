@@ -1,8 +1,7 @@
 package presentation;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+
 
 import javax.swing.JOptionPane;
 
@@ -12,11 +11,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -24,7 +20,6 @@ import javafx.stage.Stage;
 
 public class UI {
 
-	private Events event;
 	private Scene myScene;
 	private Pane pContainer;
 	private GridPane gPMatrix;
@@ -37,10 +32,10 @@ public class UI {
 	private Button bExterminationAliens;
 	private Button buttonMatrix[][];
    
-	private ArrayList<Events> eventList;
+
 
 	public UI() {
-		event = new Events();
+	
 		setBMovement("Mover");
 		setBExterminationZombies("Exterminar Zombies");
 		setBExterminationAliens("Exterminar Aliens");
@@ -192,14 +187,14 @@ public class UI {
         tableView.setItems(eventList1);
     }
     
-    public TableView<Events> getTVCity(){
+    public TableView<Events> getTVEvents(){
     	
     	return this.tableView;
     }
 
     public void dataTableView(ArrayList<Events> Acontecimiento) {
     	eventList1.setAll(Acontecimiento);
-    	tableView.scrollTo(eventList1.size() - 1); //se mueve junto la info 
+    	tableView.scrollTo(eventList1.size() - 1); //se mueve junto la info, baja automatico
     }
 	
 //-----------------------------------------------------------------------------------------------------
