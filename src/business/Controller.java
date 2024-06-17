@@ -54,8 +54,10 @@ public class Controller {
 //----------------------------------------------------------------------------------------------------------------		
 		
 		this.ui.getBMovement().setOnAction(e->{
-				lo.moveEntities(ui.getButtonMatrix());
+				lo.resolvePotionConflicts(ui.getButtonMatrix());
 				lo.resolveConflicts(ui.getButtonMatrix());
+				lo.moveEntities(ui.getButtonMatrix());
+				ui.updateButtonMatrix(ui.getButtonMatrix());
 				ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
 				System.out.println(lo.posimasCount);
 		});
