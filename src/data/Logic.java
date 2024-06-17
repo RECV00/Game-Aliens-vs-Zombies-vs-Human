@@ -13,6 +13,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Entity;
 
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import presentation.UI;
 import domain.City;
@@ -451,5 +453,32 @@ private void separateAndAssignToAdjacentButtons(Button[][] updatedMatrix, int ro
         }
     }
 }
+
+
+//------------------------------FIN DEL COMUNICADO---------------------------------------------------
+
+public boolean isGameOver(Button[][] buttonMatrix) {
+	int contA =0, contZ=0, contH=0;
+    for (int i = 0; i < buttonMatrix.length; i++) {
+        for (int j = 0; j < buttonMatrix[i].length; j++) {
+            String text = buttonMatrix[i][j].getText();          
+            if (text.contains("A")) {
+            	contA++;	
+	        }else if (text.contains("Z")) {
+	        	contZ++;
+	        }else if (text.contains("H")){
+	        	contH++;
+	        }
+        }
+    }  
+    if(contA!=0 && contZ!=0 && contH!=0) {
+    	return false;   	
+    }else {
+    	return true;
+    }
+}
+
+
+
 
 }

@@ -1,6 +1,8 @@
 package business;
 
 
+import java.awt.Button;
+
 import data.FilesXML;
 import data.Logic;
 import domain.City;
@@ -54,29 +56,37 @@ public class Controller {
 //----------------------------------------------------------------------------------------------------------------		
 		
 		this.ui.getBMovement().setOnAction(e->{
+			
+				
 				lo.resolvePotionConflicts(ui.getButtonMatrix());
 				lo.resolveConflicts(ui.getButtonMatrix());
 				lo.moveEntities(ui.getButtonMatrix());
-				ui.updateButtonMatrix(ui.getButtonMatrix());
+				ui.updateButtonMatrix(ui.getButtonMatrix());				
 				ui.dataTableView(fXML.readXMLArrayListEvents("Acontecimientos.xml", "Acontecimiento"));
-				System.out.println(lo.posimasCount);
+				
+				if(lo.isGameOver(ui.getButtonMatrix()) == true){
+					sta.countAndReportLetters(ui.getButtonMatrix());
+					ui.notify(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+					ui.closeWindow(secundaryStage);
+				}
 		});
 	
 		
 		this.ui.getBExterminationZombies().setOnAction(e->{
 			lo.eliminateEntities(ui.getButtonMatrix(), 'Z');
 			sta.countAndReportLetters(ui.getButtonMatrix());
-			System.out.println(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+			ui.updateButtonMatrix(ui.getButtonMatrix());
 			ui.notify(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+//			ui.closeWindow(secundaryStage);
 		});
 		
 		this.ui.getBExterminationAliens().setOnAction(e->{
 			lo.eliminateEntities(ui.getButtonMatrix(), 'A');
 			sta.countAndReportLetters(ui.getButtonMatrix());
-			System.out.println(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
 			ui.notify(fXML.readXMLStatistics("Estadisticas del Juego.xml", "Statistics"));
+//			ui.closeWindow(secundaryStage);
 		});
-	
+		
+		
 	}
-	
 }

@@ -206,4 +206,10 @@ public class UI {
 	public void notify(String menssage) {
 		JOptionPane.showMessageDialog(null,menssage);
 	}
+	
+	public void closeWindow(Stage primaryStage) {
+        if (primaryStage != null) {
+            primaryStage.close();
+        }
+    }
 }
